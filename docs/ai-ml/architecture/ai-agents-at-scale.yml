@@ -1,0 +1,28 @@
+### YamlMime:Architecture
+metadata:
+  title: AI Agents at scale 
+  description: Learn how to implement an architecture that allows your AI applications scale to 100s of agents.
+  author: brirajsingh, munishm
+  ms.author: brsingh, mumalhot
+  ms.date: 09/29/2025
+  ms.topic: agentic-scale
+  ms.collection: ce-skilling-ai-copilot
+  ms.subservice: agentic-scale
+  ms.custom:
+    - arb-aiml
+    - arb-telco
+  ai-usage: ai-assisted
+azureCategories:
+  - ai-machine-learning
+  - media
+products:
+  - azure-machine-learning
+  - ai-services
+  - azure-logic-apps
+  - azure-synapse-analytics
+  - azure-data-lake-storage
+name: AI Agents at scale 
+summary: Learn how to implement an architecture that allows your AI applications scale to 100s of agents.
+thumbnailUrl: /azure/architecture/browse/thumbs/analyze-video-thumb.png
+content: |
+  [!INCLUDE[](analyze-video-computer-vision-machine-learning-content.md)]
