@@ -11,6 +11,9 @@ Only discuss the challenges in the following sections, not the solutions.
 
 # Architecture
 
+<img width="1093" height="886" alt="image" src="https://github.com/user-attachments/assets/1da43bdb-b2c1-4cf7-a884-b132676bcac7" />
+
+
 ## System Design High-level
 Diagram of high level infrastructure and services, Then sections on each component double click
 
