@@ -29,30 +29,19 @@ The structure of the Agent Selector system is illustrated in the following diagr
 ![Agent Selector System Diagram](_images/ai-agents-at-scale-agent-selection.png)
 
 #### Workflow Summary 
-
 User Query → Alias Mapping → Semantic Search (Azure AI Search) → Agent Scoring & Filtering → Orchestrator (Select & Invoke Agent) 
 
-User submits a query along with registered device IDs. 
-
-Query goes through alias mapping to get normalized query. 
-
-Normalized query is sent to Azure AI Search (semantic cache) to find top matching agent utterances. 
-
-Each agent is assigned the highest similarity score based on vector similarity scores of normalized query with utterances in semantic cache. 
-
-Agents with scores above predefined thresholds are shortlisted. 
-
-Candidate agents are intersected with the user’s registered device agents. 
-
-Duplicate agents are removed; each agent is assigned its highest score. 
-
-If only one agent remains and its score is above the confidence threshold, it is selected; otherwise, SupervisorAgent is added. 
-
-Agents from previous turn are added from chat history. 
-
-Final agent list is sent to the Orchestrator. 
-
-Orchestrator invokes the single agent directly, or uses LLM to select if multiple agents are available to it. 
+1. User submits a query along with registered device IDs.
+2. Query goes through alias mapping to get a normalized query.
+3. Normalized query is sent to Azure AI Search (semantic cache) to find top matching agent utterances.
+4. Each agent is assigned the highest similarity score based on vector similarity scores of the normalized query with utterances in the semantic cache.
+5. Agents with scores above predefined thresholds are shortlisted.
+6. Candidate agents are intersected with the user’s registered device agents.
+7. Duplicate agents are removed; each agent is assigned its highest score.
+8. If only one agent remains and its score is above the confidence threshold, it is selected; otherwise, SupervisorAgent is added.
+9. Agents from the previous turn are added from chat history.
+10. Final agent list is sent to the Orchestrator.
+11. Orchestrator invokes the single agent directly, or uses an LLM to select if multiple agents are available.
 #### Evaluation criteria
 
 ### Orchestration
