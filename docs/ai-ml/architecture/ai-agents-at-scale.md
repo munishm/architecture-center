@@ -22,7 +22,37 @@ Diagram of high level infrastructure and services, Then sections on each compone
 ## Components
 
 ### Agent Selection
-Time to find a better name for this
+The Agent Selector efficiently identifies and selects the most relevant agents to address user inquiries from a broad pool of available agents. By integrating Azure AI Search (utilizing vector similarity) with a Large Language Model (LLM), the system delivers contextually-aware agent selection. This approach enhances downstream processes, including seamless inter-agent and agent-user interactions, to produce the desired response or action in line with the user's query. This document presents an overview of the components and workflow underpinning the Agent Selector. 
+
+The structure of the Agent Selector system is illustrated in the following diagram: 
+
+![Agent Selector System Diagram](_images/ai-agents-at-scale-agent-selection.png)
+
+#### Workflow Summary 
+
+User Query → Alias Mapping → Semantic Search (Azure AI Search) → Agent Scoring & Filtering → Orchestrator (Select & Invoke Agent) 
+
+User submits a query along with registered device IDs. 
+
+Query goes through alias mapping to get normalized query. 
+
+Normalized query is sent to Azure AI Search (semantic cache) to find top matching agent utterances. 
+
+Each agent is assigned the highest similarity score based on vector similarity scores of normalized query with utterances in semantic cache. 
+
+Agents with scores above predefined thresholds are shortlisted. 
+
+Candidate agents are intersected with the user’s registered device agents. 
+
+Duplicate agents are removed; each agent is assigned its highest score. 
+
+If only one agent remains and its score is above the confidence threshold, it is selected; otherwise, SupervisorAgent is added. 
+
+Agents from previous turn are added from chat history. 
+
+Final agent list is sent to the Orchestrator. 
+
+Orchestrator invokes the single agent directly, or uses LLM to select if multiple agents are available to it. 
 #### Evaluation criteria
 
 ### Orchestration
