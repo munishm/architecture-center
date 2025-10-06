@@ -135,7 +135,7 @@ This is particularly useful for diagnosing latency spikes, identifying network b
    - Metrics → Azure Metrics Explorer  
 4. **Visualization & Alerting:** Azure Monitor dashboards track real-time performance, with rule-based alerts triggering incident response workflows.
 
-
+A single trace ID flows through the entire conversation lifecycle—from the initial request to the orchestrator, through agent invocations, function tool calls, and external API services. Each component creates child spans under the parent trace, allowing you to reconstruct the complete execution path and identify where latency or errors occurred across agents and auxiliary services.
 
 ## Observability for LLM and Agent Systems
 
@@ -149,13 +149,6 @@ We track not just infrastructure telemetry, but contextual data such as:
 - **Outputs:** The actual text, decisions, or structured responses.  
 
 Capturing this metadata enables **reproducibility** of inference runs—helping data scientists analyze why an output differed, whether drift occurred, or if bias emerged.
-
-Storage approaches vary based on use case:
-
-- **Logs:** Lightweight, append-only for quick lookups.  
-- **Databases:** Structured for long-term analysis and trace correlation.  
-- **Streaming pipelines:** Event-based observability for near real-time analysis using Event Hub or Kafka.
-
 
 ## Key Metrics Categories
 
