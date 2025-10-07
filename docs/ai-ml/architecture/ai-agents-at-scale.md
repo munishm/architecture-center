@@ -53,12 +53,12 @@ The structure of the Agent Selector system is illustrated in the following diagr
 #### Workflow Summary 
 User Query → Alias Mapping → Semantic Search (Azure AI Search) → Agent Scoring & Filtering → Orchestrator (Select & Invoke Agent) 
 
-1. User submits a query along with registered device IDs.
+1. User submits a query along with registered agent IDs.
 2. Query goes through alias mapping to get a normalized query.
 3. Normalized query is sent to Azure AI Search (semantic cache) to find top matching agent utterances.
 4. Each agent is assigned the highest similarity score based on vector similarity scores of the normalized query with utterances in the semantic cache.
 5. Agents with scores above predefined thresholds are shortlisted.
-6. Candidate agents are intersected with the user’s registered device agents.
+6. Candidate agents are intersected with the user’s registered agents.
 7. Remove duplicate agents by retaining only the highest similarity score for each agent based on matched utterances.
 8. If a single agent remains and its score exceeds the confidence threshold, select that agent. If not, include the SupervisorAgent for further evaluation.
 9. Incorporate agents from the previous conversation turn using chat history.
