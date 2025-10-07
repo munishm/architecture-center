@@ -178,12 +178,6 @@ To maintain comprehensive visibility, we track multiple metric layers:
 - Instruction adherence and factual consistency
 - Bias, fairness, and groundedness indicators
 
-### **Operational & Reliability**
-- Deployment and rollback frequency
-- Incident response times
-- Audio quality metrics (packet loss, jitter, MOS)
-
-
 ## Example: Capturing LLM Metrics
 
 We use lightweight wrappers to record LLM inference metrics directly from agent services:
