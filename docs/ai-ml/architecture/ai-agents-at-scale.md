@@ -23,13 +23,12 @@ Return on investment is a big concern for all agentic systems, Token count is a 
 ## Orchestration
 
 There are many options in orchestrating a multi-agent conversation; options like Group chat, Handoff, concurrent, sequential, Magentic etc.
-A key challenge is to figure out what is the orchestration pattern for your business in particular cases. In many multi-agent systems - specialized agents are built to converse with each other or do a job after one another, while in many systems the nature of each agent can be stark different and yet the client's may expect multiple agents to finish the job concurrently.
+A key challenge is to figure out, what is the orchestration pattern for your business in particular cases? In multi-agent systems - specialized agents are built to converse with each other or do a job after one another, while in many systems the nature of each agent can be stark different and yet the client's may expect multiple agents to finish the job concurrently.
 In this architecture, we will put out a view point on possible selection of orchestration pattern when working at a dynamic scale, as at dynamic scale the nature of exact business and relations within agents may not be always known.
 
 ## Evaluating as system evolves
+As you build an agentic solution, it's vital to keep evaluating your system. Both Agent, as well as orchestration and impact of a new agent on overall system needs to be evaluated. 
 
-
-## Evolution
 
 # Architecture
 
@@ -44,7 +43,7 @@ Diagram of high level infrastructure and services, Then sections on each compone
 ## Components
 
 ### Agent Selection
-The Agent Selector is designed to efficiently identify and choose the most appropriate agents for addressing user inquiries from an extensive pool of candidates. Through the integration of Azure AI Search—leveraging vector similarity as a semantic cache—to narrow the list of agents, followed by the application of a Large Language Model (LLM) to select from this refined group, the system ensures contextually-aware agent selection. This methodology enhances subsequent processes, promoting effective inter-agent and agent-user interactions to produce responses or actions aligned with the user's query. This document provides an overview of the key components and workflow that underpin the Agent Selector. 
+The Agent Selector efficiently identifies and selects the most relevant agents to address user inquiries from a broad pool of available agents. By integrating Azure AI Search (utilizing vector similarity) with a Large Language Model (LLM), the system delivers contextually-aware agent selection. This approach enhances downstream processes, including seamless inter-agent and agent-user interactions, to produce the desired response or action in line with the user's query. This document presents an overview of the components and workflow underpinning the Agent Selector. 
 
 The structure of the Agent Selector system is illustrated in the following diagram: 
 
@@ -59,9 +58,9 @@ User Query → Alias Mapping → Semantic Search (Azure AI Search) → Agent Sco
 4. Each agent is assigned the highest similarity score based on vector similarity scores of the normalized query with utterances in the semantic cache.
 5. Agents with scores above predefined thresholds are shortlisted.
 6. Candidate agents are intersected with the user’s registered device agents.
-7. Remove duplicate agents by retaining only the highest similarity score for each agent based on matched utterances.
-8. If a single agent remains and its score exceeds the confidence threshold, select that agent. If not, include the SupervisorAgent for further evaluation.
-9. Incorporate agents from the previous conversation turn using chat history.
+7. Duplicate agents are removed; each agent is assigned its highest score.
+8. If only one agent remains and its score is above the confidence threshold, it is selected; otherwise, SupervisorAgent is added.
+9. Agents from the previous turn are added from chat history.
 10. Final agent list is sent to the Orchestrator.
 11. Orchestrator invokes the single agent directly, or uses an LLM to select if multiple agents are available.
 #### Evaluation criteria
