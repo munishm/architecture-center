@@ -67,7 +67,35 @@ User Query → Alias Mapping → Semantic Search (Azure AI Search) → Agent Sco
 #### Evaluation criteria
 
 ### Orchestration
-Options of orchestration (Agents as tools), complexity with multi-turn, Short-cut paths, 
+ToDo : Add Options of orchestration (Agents as tools), complexity with multi-turn, Short-cut paths 
+
+There are several options we can choose for our Multi-agent Orchestration:
+We already have a refenrene arhiteture document desribing some of the most ommon patterns in details Refer [AI agent orchestration patterns](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns) for more details on this.
+
+ There is also another interesting orhestration pattern worth mentioning here whih is - "Agents as Tools".(<<ToDo: MSFT link for Agents as Tools pattern>>)
+   In this pattern, we have a higher level agent whih has other agents wrapped as it's tools. Choose this option if the agents are well defined and they don't need to talk to each other.
+   The higher level agnet then hooses the respetive agents aordingly just like an LLM would in like a normal funtion alling
+
+   <<ToDo: add diagram for agents as tools>>
+
+   When to choose this pattern:
+   1.  When the user task is simple enough and doesn't requires any brainstorming or multiple agents ollaboration  
+   . Since the tool calling has it's own limitatons, this option is best when the number of agents (based on user's intent) are less(two-three)
+
+   
+
+Both the above patterns will work for multi-intent senarios. For multi-turn senarios, we would need aess to pst onversations ontext, this is where the idea of adding Agent memory comes in our solution design. 
+Again there are several patterns for Agenti memory whih an be explored as peer the use ase.
+<<ToDo: add diagram for agenti memory>>
+
+The overall idea of achieving this is simple, we store all our onversations (user's input and agent's responses) in a database, preferably a cache like Redis(for low-latency) with conversation-id as our key, So that whenever we are processing the
+request we hek our ache first and load any past conversations based on the conversation-id & add it in our request's context. For more advaned options, we an explore the respetive Agent memory patterns(ToDo: link for agent memory patterns)
+
+###### Optimization
+We an further leverage our Agent seletion module to optimize ou orhestration flow.
+Essentially, if the user query is simple enough/single-intent senario & if ased on our Agent Seletion Semanti ahe results, an agent is being returned with very high onfidene sore(for eg: >90%), 
+it means only 1 agent is required to ahieve the task , hene in this ase, we an avoid going through the multi-agent orhestration route & instead an direty invoke that agent. This optimization will result in muh better performane- redued LLM alls and token usage and less lateny.
+
 #### Evaluation criteria
 
 ### Agent Implementation options - In-Code, Yaml, MCP, A2A
