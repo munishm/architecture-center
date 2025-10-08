@@ -67,36 +67,33 @@ User Query → Alias Mapping → Semantic Search (Azure AI Search) → Agent Sco
 #### Evaluation criteria
 
 ### Orchestration
-ToDo : Add Options of orchestration (Agents as tools), complexity with multi-turn, Short-cut paths 
 
-There are several options we can choose for our Multi-agent Orchestration:
-We already have a refenrene arhiteture document desribing some of the most ommon patterns in details Refer [AI agent orchestration patterns](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns) for more details on this.
+A well-designed orchestration layer is essential for coordinating interactions among multiple AI agents. As both the number of agents and the complexity of user scenarios grow, the orchestration system must enable agents to work together effectively, complete tasks accurately, and preserve conversational context. The choice of orchestration pattern depends on various factors such as the nature of user queries, the degree of agent collaboration required, and the overall system goals.
 
- There is also another interesting orhestration pattern worth mentioning here whih is - "Agents as Tools".(<<ToDo: MSFT link for Agents as Tools pattern>>)
-   In this pattern, we have a higher level agent whih has other agents wrapped as it's tools. Choose this option if the agents are well defined and they don't need to talk to each other.
-   The higher level agnet then hooses the respetive agents aordingly just like an LLM would in like a normal funtion alling
+One can choose from various orchestration patterns to address specific solution needs. For detailed guidance on selecting and implementing these patterns, see [AI agent orchestration patterns](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns).
 
-   <<ToDo: add diagram for agents as tools>>
+For scenarios that require minimal degree of agent orchestreation, consider using "Agents as Tools" pattern. In this approach, a principal agent acts as the main coordinator, invoking other agents as "tools" to fulfill specific tasks. The principal agent interprets user intent and determines which agents to call using the function calling capabilities of large language models. For more details, see [Agents as Tools pattern](<<ToDo: Link to Agents as Tools>>).
 
-   When to choose this pattern:
-   1.  When the user task is simple enough and doesn't requires any brainstorming or multiple agents ollaboration  
-   . Since the tool calling has it's own limitatons, this option is best when the number of agents (based on user's intent) are less(two-three)
+**Recommended scenarios for the Agents as Tools pattern:**
+1. The user's request is straightforward and does not require extensive collaboration or reasoning among agents.
+2. The solution involves a limited set of agents, usually two or three, to fulfill the task.
+3. Each agent operates within a well-defined scope, with responsibilities that do not overlap.
 
-   
+#### Multi-Turn Scenarios
 
-Both the above patterns will work for multi-intent senarios. For multi-turn senarios, we would need aess to pst onversations ontext, this is where the idea of adding Agent memory comes in our solution design. 
-Again there are several patterns for Agenti memory whih an be explored as peer the use ase.
-<<ToDo: add diagram for agenti memory>>
+Multi-turn interactions require the orchestration layer to maintain continuity by providing relevant context from previous requests to the participating agents. The orchestration system should determine when to summarize, prune, or persist the conversation state to optimize performance and relevance.
 
-The overall idea of achieving this is simple, we store all our onversations (user's input and agent's responses) in a database, preferably a cache like Redis(for low-latency) with conversation-id as our key, So that whenever we are processing the
-request we hek our ache first and load any past conversations based on the conversation-id & add it in our request's context. For more advaned options, we an explore the respetive Agent memory patterns(ToDo: link for agent memory patterns)
+A simplistic approach to augment our request with prior context can be implemented by storing the relevant conversation history in a low-latency cache, such as Azure Cache for Redis, indexed by conversation ID along with a configurable time-to-live (TTL) value to control retention. The TTL can be adjusted based on business needs, such as using a rolling TTL for ongoing conversations.
 
-###### Optimization
-We an further leverage our Agent seletion module to optimize ou orhestration flow.
-Essentially, if the user query is simple enough/single-intent senario & if ased on our Agent Seletion Semanti ahe results, an agent is being returned with very high onfidene sore(for eg: >90%), 
-it means only 1 agent is required to ahieve the task , hene in this ase, we an avoid going through the multi-agent orhestration route & instead an direty invoke that agent. This optimization will result in muh better performane- redued LLM alls and token usage and less lateny.
+For more advanced agent memory strategies, see [Agent Memory](https://learn.microsoft.com/en-us/agent-framework/user-guide/agents/agent-memory).
 
-#### Evaluation criteria
+#### Adaptive Orchestration: Direct Agent Invocation vs. Orchestrator Path
+
+While the orchestration module is central to coordinating agent interactions, there can be scenarios where its involvement may be unnecessary. Specifically, if the agent selection process—using semantic cache and vector similarity—yields a single agent with a confidence score exceeding a defined threshold (such as 85%), the system can invoke that agent directly. This approach eliminates unnecessary orchestration overhead, minimizing additional agent selection steps, reducing both latency and token consumption associated with additional LLM calls.
+
+Direct invocation is most suitable for unambiguous, single-intent queries where the probability of successful agent resolution is high. For queries exhibiting multi-intent or ambiguity, the orchestrator layer remains essential for advanced agent coordination and reasoning.
+
+By incorporating this adaptive orchestration strategy, the architecture balances performance optimization with functional flexibility. It ensures rapid response for straightforward tasks and robust coordination for complex scenarios.
 
 ### Agent Implementation options - In-Code, Yaml, MCP, A2A
 #### Evaluation criteria
