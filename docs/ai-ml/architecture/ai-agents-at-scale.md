@@ -45,14 +45,15 @@ However, as these systems expand in scale and complexity, maintaining visibility
 Unlike traditional applications, agentic systems involve multiple intelligent components that collaborate dynamically: language models, orchestration layers, caching mechanisms, retrieval engines, and external APIs.  
 Each component contributes to the outcome, which makes **monitoring, debugging, and optimization** far more intricate.
 
-That’s where **observability** becomes essential—not as a buzzword, but as the foundation for understanding emergent AI behavior.
+That's where **observability** becomes essential—not as a buzzword, but as the foundation for understanding emergent AI behavior.
 
 ---
 
-## Why Observability Matters in AI Systems
+## Why observability matters in AI systems
 
-Observability gives you insight into what your system is thinking and doing—not just whether it’s running.  
-In multi-agent environments, it answers questions such as:
+Observability provides insight into what your application is doing—not just whether the underlying infrastructure is running. You need to distinguish between **system observability** (infrastructure metrics like CPU, memory, and network) and **application observability** (orchestration logic, agent behavior, prompt flows, and model inference).
+
+In multi-agent environments, application observability answers questions such as:
 
 - Why did one agent take longer to respond than others?  
 - What sequence of calls led to a poor or inconsistent result?  
@@ -61,7 +62,7 @@ In multi-agent environments, it answers questions such as:
 By combining signals from infrastructure, orchestration, and model behavior, observability bridges the gap between **system performance** and **model intelligence**.
 
 
-## Our Observability Framework
+## Our observability framework
 
 We've built our observability framework on **OpenTelemetry** for instrumentation and **Azure Application Insights** as the telemetry backend.  
 
@@ -89,12 +90,12 @@ trace.get_tracer_provider().add_span_processor(span_processor)
 ```
 
 
-## The Three Dimensions of Agentic Observability
+## The three dimensions of agentic observability
 
 Traditional observability stops at *logs, metrics, and traces*.  
 In AI systems, we extend those pillars to include **semantic and behavioral observability**—how agents reason, collaborate, and evolve during execution.
 
-### 1. Execution Logs  
+### 1. Execution logs  
 Beyond infrastructure logging, we capture **semantic events**: prompts, responses, and intermediate reasoning steps between agents.  
 Logs here are not just for debugging—they help reconstruct **conversation context**, agent decisions, and prompt flow.  
 
@@ -102,7 +103,7 @@ All log data is streamed via **OpenTelemetry exporters** to **Azure Log Analytic
 
 ---
 
-### 2. System and Model Metrics  
+### 2. System and model metrics  
 Metrics provide quantitative signals about both system and model performance.  
 We track latency, throughput, and cost—but also **AI-specific metrics** such as:
 
@@ -115,7 +116,7 @@ These metrics help balance efficiency, quality, and responsiveness—critical fo
 
 ---
 
-### 3. Distributed Traces with Context  
+### 3. Distributed traces with context  
 Traces connect every service and agent involved in a single conversation.  
 By using **trace IDs** and **span IDs**, we can view the full path of an inference request—from the orchestrator to downstream agents, caches, and external calls.
 
@@ -123,7 +124,7 @@ Each trace carries **semantic context**, such as conversation ID and agent name,
 This is particularly useful for diagnosing latency spikes, identifying network bottlenecks, or analyzing where agent coordination might fail.
 
 
-## Observability Data Flow for Agentic Systems
+## Observability data flow for agentic systems
 
 <img src="../architecture/_images/ai-agents-at-scale-observability-flow.png" alt="Observability data flow for agentic systems" width="1200" />
 
@@ -137,7 +138,7 @@ This is particularly useful for diagnosing latency spikes, identifying network b
 
 A single trace ID flows through the entire conversation lifecycle—from the initial request to the orchestrator, through agent invocations, function tool calls, and external API services. Each component creates child spans under the parent trace, allowing you to reconstruct the complete execution path and identify where latency or errors occurred across agents and auxiliary services.
 
-## Observability for LLM and Agent Systems
+## Observability for LLM and agent systems
 
 For LLM-driven architectures, observability must capture **the cognitive layer**—what the model or agent saw, decided, and produced.
 
@@ -150,7 +151,7 @@ We track not just infrastructure telemetry, but contextual data such as:
 
 Capturing this metadata enables **reproducibility** of inference runs—helping data scientists analyze why an output differed, whether drift occurred, or if bias emerged.
 
-## Key Metrics Categories
+## Key metrics categories
 
 To maintain comprehensive visibility, we track multiple metric layers:
 
@@ -178,7 +179,7 @@ To maintain comprehensive visibility, we track multiple metric layers:
 - Instruction adherence and factual consistency
 - Bias, fairness, and groundedness indicators
 
-## Example: Capturing LLM Metrics
+## Example: Capturing LLM metrics
 
 We use lightweight wrappers to record LLM inference metrics directly from agent services:
 
@@ -195,7 +196,7 @@ record_llm_metrics(
 )
 ```
 
-### Conclusion
+## Best practices
 
 - **Uniform Instrumentation:** Apply OpenTelemetry consistently across all microservices and agents.  
 - **Correlation IDs:** Include trace and span IDs in every log and metric.  
@@ -203,4 +204,3 @@ record_llm_metrics(
 - **Dashboards and Alerts:** Define SLIs/SLOs and automate alerting for anomalies.  
 - **Secure Data Handling:** Mask or omit sensitive information from logs and traces.  
 - **Cross-functional Collaboration:** Engineers, data scientists, and product teams should share a unified observability view.
-- Audio quality metrics (packet loss, jitter, MOS)
