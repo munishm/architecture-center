@@ -1,19 +1,22 @@
 # Dynamic AI Agents at scale pattern
+
 This architecture describes a multi-agent agentic solution, that allows dynamic selection of probable agents in a conversation out of a big universe of 100s of agents. The architecture explains the key challenges in building a dynamic inclusion agentic system, possible orchestration options and evaluating the system as it scales to 100s of agents.
 
-This architecture applies Azure AI Foundry, Azure AI Search, Azure Open AI in Azure AI Foundry models, and other azure services to build a scalable agentic solution. 
+This architecture applies Azure AI Foundry, Azure AI Search, Azure Open AI in Azure AI Foundry models, and other azure services to build a scalable agentic solution.
 
-The architecture is mostly valid for use-cases where there are many agents involved in open-ended conversations with the clients, and conversation domain is not fixed. 
+The architecture is mostly valid for use-cases where there are many agents involved in open-ended conversations with the clients, and conversation domain is not fixed.
 
-# Key Challenges 
+# Key Challenges
 
 ## Dynamic inclusion of agents
+
 Imagine that your organization has multiple domain specialized agents, and you want to build a single conversation AI which allows the clients to use any of these agents, without excatly being concerned about which agent is doing the work. In addition, there can be situations where more than one agent is being used in a single conversation (multi-intent scenario), for example - "Help me book a conference room in Yosemite floor, and inform the parking services that I may need 5 spots for customers meeting on 26th." - This use case could be using ConferenceBooking Agent, as well as the ParkingServiceAgent to do both works. Essentially, it's a simple problem to solve when the number of agents/tools is smaller (like under 20), and mostly [function calling](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/function-calling/?pivots=programming-language-python) pattern does a good job.
 Choosing which particular function before adding in a conversation is one of the key challenges here, when the list of agents grow longer.
 
 ## Cost optimization
 
-Some caveats of function calling are 
+Some caveats of function calling are
+
 1. Doesn't scale well with larger number of functions - Maximum limit being 19.
 2. Token count increases as number of functions increase
 3. With Token count the cost and time both increase
@@ -27,15 +30,15 @@ A key challenge is to figure out, what is the orchestration pattern for your bus
 In this architecture, we will put out a view point on possible selection of orchestration pattern when working at a dynamic scale, as at dynamic scale the nature of exact business and relations within agents may not be always known.
 
 ## Evaluating as system evolves
-As you build an agentic solution, it's vital to keep evaluating your system. Both Agent, as well as orchestration and impact of a new agent on overall system needs to be evaluated. 
 
+As you build an agentic solution, it's vital to keep evaluating your system. Both Agent, as well as orchestration and impact of a new agent on overall system needs to be evaluated.
 
 # Architecture
 
 <img width="1093" height="886" alt="image" src="https://github.com/user-attachments/assets/1da43bdb-b2c1-4cf7-a884-b132676bcac7" />
 
-
 ## System Design High-level
+
 Diagram of high level infrastructure and services, Then sections on each component double click
 
 ## Workflow
@@ -43,14 +46,16 @@ Diagram of high level infrastructure and services, Then sections on each compone
 ## Components
 
 ### Agent Selection
-The Agent Selector is designed to efficiently identify and choose the most appropriate agents for addressing user inquiries from an extensive pool of candidates. Through the integration of Azure AI Search—leveraging vector similarity as a semantic cache—to narrow the list of agents, followed by the application of a Large Language Model (LLM) to select from this refined group, the system ensures contextually-aware agent selection. This methodology enhances subsequent processes, promoting effective inter-agent and agent-user interactions to produce responses or actions aligned with the user's query. This document provides an overview of the key components and workflow that underpin the Agent Selector. 
 
-The structure of the Agent Selector system is illustrated in the following diagram: 
+The Agent Selector is designed to efficiently identify and choose the most appropriate agents for addressing user inquiries from an extensive pool of candidates. Through the integration of Azure AI Search—leveraging vector similarity as a semantic cache—to narrow the list of agents, followed by the application of a Large Language Model (LLM) to select from this refined group, the system ensures contextually-aware agent selection. This methodology enhances subsequent processes, promoting effective inter-agent and agent-user interactions to produce responses or actions aligned with the user's query. This document provides an overview of the key components and workflow that underpin the Agent Selector.
+
+The structure of the Agent Selector system is illustrated in the following diagram:
 
 ![Agent Selector System Diagram](_images/ai-agents-at-scale-agent-selection.png)
 
-#### Workflow Summary 
-User Query → Alias Mapping → Semantic Search (Azure AI Search) → Agent Scoring & Filtering → Orchestrator (Select & Invoke Agent) 
+#### Workflow Summary
+
+User Query → Alias Mapping → Semantic Search (Azure AI Search) → Agent Scoring & Filtering → Orchestrator (Select & Invoke Agent)
 
 1. User submits a query along with registered agent IDs.
 2. Query goes through alias mapping to get a normalized query.
@@ -63,9 +68,10 @@ User Query → Alias Mapping → Semantic Search (Azure AI Search) → Agent Sco
 9. Incorporate agents from the previous conversation turn using chat history.
 10. Final agent list is sent to the Orchestrator.
 11. Orchestrator invokes the single agent directly, or uses an LLM to select if multiple agents are available.
+
 #### Evaluation criteria
 
-### Orchestration
+### Multi-Agent Orchestration
 
 A well-designed orchestration layer is essential for coordinating interactions among multiple AI agents. As both the number of agents and the complexity of user scenarios grow, the orchestration system must enable agents to work together effectively, complete tasks accurately, and preserve conversational context. The choice of orchestration pattern depends on various factors such as the nature of user queries, the degree of agent collaboration required, and the overall system goals.
 
@@ -74,6 +80,7 @@ One can choose from various orchestration patterns to address specific solution 
 For scenarios that require minimal degree of agent orchestreation, consider using "Agents as Tools" pattern. In this approach, a principal agent acts as the main coordinator, invoking other agents as "tools" to fulfill specific tasks. The principal agent interprets user intent and determines which agents to call using the function calling capabilities of large language models. For more details, see [Agents as Tools pattern](<<ToDo: Link to Agents as Tools>>).
 
 **Recommended scenarios for the Agents as Tools pattern:**
+
 1. The user's request is straightforward and does not require extensive collaboration or reasoning among agents.
 2. The solution involves a limited set of agents, usually two or three, to fulfill the task.
 3. Each agent operates within a well-defined scope, with responsibilities that do not overlap.
@@ -94,26 +101,92 @@ Direct invocation is most suitable for unambiguous, single-intent queries where 
 
 By incorporating this adaptive orchestration strategy, the architecture balances performance optimization with functional flexibility. It ensures rapid response for straightforward tasks and robust coordination for complex scenarios.
 
-### Agent Implementation options - In-Code, Yaml, MCP, A2A
-#### Evaluation criteria
+### Agent Implementation
+
+When building a dynamic multi-agent system at scale, there are various implementation approaches, each with distinct advantages for different scenarios.
+The choice depends on your business requirements, system goals, and the need to balance scalability, maintainability, and integration complexity for your agentic solution.
+
+#### In-Code
+
+Agents are defined programmitically in the application code and with the help of frameworks like [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/overview/agent-framework-overview), [LangChain](https://www.langchain.com/) etc.
+
+**Advantages:**
+
+- Maximum control over agent logic and behavior.
+- Direct integration with existing application infrastructure.
+- Efficient runtime performance through direct code execution.
+- Rich debugging and testing capabilities.
+
+**Considerations:**
+
+- Requires proficiency in the respective programming language and framework used for agent implementation.
+- Updating or onboarding new agents requires code changes and redeployment.
+- Higher maintenance overhead as the system scales.
+
+#### Declarative
+
+Declarative based agent definitions allows you to declare agent capabilities, prompts, and workflows in configuration files like [YAML](https://yaml.org/). This approach separates agent logic from application code, enabling non-developers as well to modify agent behavior without code changes.
+
+**Advantages:**
+
+- Easier to introduce new agents into the system without requiring code changes or redeployment.
+- Non-technical team members can also contribute in defining the agents behavior.
+- Faster iteration cycles for agent updates.
+- Clear separation of concerns between infrastructure and agent logic.
+
+**Considerations:**
+
+- Agent behavior and capabilities are restricted to what gets defined as part of the YAML schema. Extending functionality beyond these predefined patterns may require significant changes or custom development.
+- Validation and testing processes need to be established for YAML changes.
+
+#### Model Context Protocol (MCP)
+
+[MCP](https://modelcontextprotocol.io/docs/getting-started/intro) is an open-source standard for connecting AI applications to external systems. MCP enables agents to connect to various systems through a unified interface, promoting interoperability and reducing integration complexity.
+
+**Advantages:**
+
+- Widely adopted open-source standard for connecting large language models (LLMs) to external data, tools, and services, supported by an active industry community.
+- Vendor-agnostic approach supporting multiple service providers.
+- Simplified agent development through reusable MCP servers.
+- Accelerates development by enabling you to build or integrate with existing MCP servers, reducing the need to create new integrations for each service.
+
+**Considerations:**
+
+- MCP is a relatively new protocol, and its ecosystem is still maturing.
+- Security standards and specifications are also evolving quickly.
+
+#### Agent-to-Agent Protocol (A2A)
+
+**Selection Criteria:**
+
+When selecting an implementation approach, consider the following parameters:
+
+- **Extensibility:** Determine how readily the approach supports adding new agents and features and capabilities in the system.
+- **Integration complexity:** Assess how easily the agent can connect with existing systems and data sources.
+- **Maintainability:** Consider the effort required to update, debug, and monitor agents as requirements evolve.
+- **Performance requirements:** Consider latency, throughput, and scalability needs based on expected usage patterns.
+- **Scalability:** Assess how well the approach supports increasing numbers of agents and higher workloads.
+- **Security:** Examine support for secure data handling, access controls, and adherence to organizational security standards.
+- **Interoperability:** Assess compatibility with standardized protocols and third-party services.
+- **Community Support:** Assess the availability of documentation, community resources, and official support for the chosen approach.
+
+Select the implementation method that best aligns with your system’s architectural priorities and operational constraints.
+Additionally, the architecture should support multiple implementation approaches simultaneously, allowing you to choose the most appropriate option for each agent based on its specific requirements and constraints.
 
 ### Evolution of system - Creating/updating Agents
 
-## Evaluation Framework 
+## Evaluation Framework
+
 Details around a possible structure of an evaluation framework
 
-## Agent Onboarding Process 
+## Agent Onboarding Process
 
-The idea behind this process is to maintain a high-quality, conflict-free multi-agent system where every agent addition, update, or removal is deliberate and validated. Agents are the building blocks of intelligent orchestration, so introducing or modifying one without checks can lead to degraded performance, overlapping responsibilities, or broken user experiences. To prevent this, the lifecycle emphasizes evaluation-driven governance at every stage. Below is a flow diagram of the onboarding process. 
+The idea behind this process is to maintain a high-quality, conflict-free multi-agent system where every agent addition, update, or removal is deliberate and validated. Agents are the building blocks of intelligent orchestration, so introducing or modifying one without checks can lead to degraded performance, overlapping responsibilities, or broken user experiences. To prevent this, the lifecycle emphasizes evaluation-driven governance at every stage. Below is a flow diagram of the onboarding process.
 
-![AI Agents Onboarding Process](_images/ai-agents-at-scale-onboarding-process.png) 
+![AI Agents Onboarding Process](_images/ai-agents-at-scale-onboarding-process.png)
 
-The process starts with onboarding a new agent, which involves verifying the uniqueness of its name, description, and sample utterances. Once validated, a temporary semantic cache is created, and the system runs semantic and response evaluations to ensure the new agent doesn’t negatively impact existing ones. If results meet benchmarks, the agent is promoted to production, and the golden dataset—our ground truth for evaluations—is updated to reflect the new capabilities. Similarly, when updating an agent, the same validation and regression checks apply to avoid selection drift. Updating the golden dataset is critical for keeping evaluations aligned with real-world usage, while deleting an agent requires careful decommissioning steps to remove dependencies and maintain system integrity. This structured approach ensures scalability without sacrificing accuracy or reliability. 
+The process starts with onboarding a new agent, which involves verifying the uniqueness of its name, description, and sample utterances. Once validated, a temporary semantic cache is created, and the system runs semantic and response evaluations to ensure the new agent doesn’t negatively impact existing ones. If results meet benchmarks, the agent is promoted to production, and the golden dataset—our ground truth for evaluations—is updated to reflect the new capabilities. Similarly, when updating an agent, the same validation and regression checks apply to avoid selection drift. Updating the golden dataset is critical for keeping evaluations aligned with real-world usage, while deleting an agent requires careful decommissioning steps to remove dependencies and maintain system integrity. This structured approach ensures scalability without sacrificing accuracy or reliability.
 
 ## Observability
 
-
 ## Conclusion
-
-
-
