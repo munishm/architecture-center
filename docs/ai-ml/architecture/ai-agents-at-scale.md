@@ -125,12 +125,12 @@ Agents are defined programmitically in the application code and with the help of
 
 #### Declarative
 
-Declarative based agent definitions allows you to declare agent capabilities, prompts, and workflows in configuration files like [YAML](https://yaml.org/). This approach separates agent logic from application code, enabling non-developers as well to modify agent behavior without code changes.
+Declarative agent definitions allow you to declare agent capabilities, prompts, and workflows in configuration files like [YAML](https://yaml.org/). This approach separates agent logic from application code, enabling non-developers to modify agent behavior without code changes.
 
 **Advantages:**
 
 - Easier to introduce new agents into the system without requiring code changes or redeployment.
-- Non-technical team members can also contribute in defining the agents behavior.
+- Non-technical team members can also contribute to defining agent behavior.
 - Faster iteration cycles for agent updates.
 - Clear separation of concerns between infrastructure and agent logic.
 
@@ -178,7 +178,7 @@ Additionally, the architecture should support multiple implementation approaches
 The Factory Design Pattern is a well-established approach for creating objects where the system needs to manage and instantiate a variety of objects dynamically.
 When building a scalable multi-agent system, consider adding an AgentFactory in your architecture to centralize how agents are created and to decouple creation logic from runtime use. Given an agent name, the factory returns a ready-to-use agent instance regardless of its implementation (code, YAML template, etc.). This lets you add new agent types without changing orchestration logic.
 
-#### Key design considerations
+#### Key Design Considerations
 
 - The factory inspects available representations (code module, YAML, other) and instantiates the appropriate implementation.  
 - Allow configurable priority (for example, prefer YAML template over code) so you can control which implementation is used when multiples exist.  
