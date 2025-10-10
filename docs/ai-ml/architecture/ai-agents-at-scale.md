@@ -101,7 +101,7 @@ Direct invocation is most suitable for unambiguous, single-intent queries where 
 
 By incorporating this adaptive orchestration strategy, the architecture balances performance optimization with functional flexibility. It ensures rapid response for straightforward tasks and robust coordination for complex scenarios.
 
-### Agent Implementation
+### Agent Implementation Approaches
 
 When building a dynamic multi-agent system at scale, there are various implementation approaches, each with distinct advantages for different scenarios.
 The choice depends on your business requirements, system goals, and the need to balance scalability, maintainability, and integration complexity for your agentic solution.
@@ -172,6 +172,19 @@ When selecting an implementation approach, consider the following parameters:
 
 Select the implementation method that best aligns with your system’s architectural priorities and operational constraints.
 Additionally, the architecture should support multiple implementation approaches simultaneously, allowing you to choose the most appropriate option for each agent based on its specific requirements and constraints.
+
+### Agent Factory
+
+The Factory Design Pattern is a well-established approach for creating objects where the system needs to manage and instantiate a variety of objects dynamically.
+When building a scalable multi-agent system, consider adding an AgentFactory in your architecture to centralize how agents are created and to decouple creation logic from runtime use. Given an agent name, the factory returns a ready-to-use agent instance regardless of its implementation (code, YAML template, etc.). This lets you add new agent types without changing orchestration logic.
+
+#### Key design considerations
+
+- The factory inspects available representations (code module, YAML, other) and instantiates the appropriate implementation.  
+- Allow configurable priority (for example, prefer YAML template over code) so you can control which implementation is used when multiples exist.  
+- Include validation, lightweight instantiation checks, and caching to avoid repeated heavy construction.  
+
+The Agent Factory pattern streamlines onboarding, testing, and evolution of an agent catalog, and preserves modularity and scalability by isolating agent changes from other system components.
 
 ### Evolution of system - Creating/updating Agents
 
