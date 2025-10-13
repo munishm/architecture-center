@@ -103,8 +103,7 @@ By incorporating this adaptive orchestration strategy, the architecture balances
 
 ### Agent Implementation Approaches
 
-When building a dynamic multi-agent system at scale, there are various implementation approaches, each with distinct advantages for different scenarios.
-The choice depends on your business requirements, system goals, and the need to balance scalability, maintainability, and integration complexity for your agentic solution.
+When designing a dynamic large scale multi-agent system, there are different implementation approaches, each offering distinct benefits depending on the scenario.
 
 #### In-Code
 
@@ -139,6 +138,32 @@ Declarative agent definitions allow you to declare agent capabilities, prompts, 
 - Agent behavior and capabilities are restricted to what gets defined as part of the YAML schema. Extending functionality beyond these predefined patterns may require significant changes or custom development.
 - Validation and testing processes need to be established for YAML changes.
 
+**Selection Criteria:**
+When selecting an implementation approach, consider the following parameters:
+
+- **Extensibility:** Determine how readily the approach supports adding new agents and capabilities in the system.
+- **Maintainability:** Consider the effort required to update, debug, and monitor agents as requirements evolve.
+- **Performance requirements:** Consider latency, throughput, and scalability needs based on expected usage patterns.
+- **Scalability:** Assess how well the approach supports increasing numbers of agents and higher workloads.
+- **Community Support:** Assess the availability of documentation, community resources, and official support for the chosen approach.
+
+Additionally, the architecture should support multiple implementation approaches simultaneously, allowing you to choose the most appropriate option for each agent based on its specific requirements and constraints.
+
+### Agent Factory
+
+The Factory Design Pattern is a well-established approach for creating objects where the system needs to manage and instantiate a variety of objects dynamically.
+When building a scalable multi-agent system, consider adding an AgentFactory in your architecture to centralize how agents are created and to decouple creation logic from runtime use. Given an agent name, the factory returns a ready-to-use agent instance regardless of its implementation (code, YAML template, etc.). This lets you add new agent types without changing orchestration logic.
+
+#### Key Design Considerations
+
+- The factory inspects available representations (code module, YAML, other) and instantiates the appropriate implementation.  
+- Allow configurable priority (for example, prefer YAML template over code) so you can control which implementation is used when multiples exist.  
+- Include validation, lightweight instantiation checks, and caching to avoid repeated heavy construction.  
+
+The Agent Factory pattern streamlines onboarding, testing, and evolution of an agent catalog, and preserves modularity and scalability by isolating agent changes from other system components.
+
+### LLM Integration Standards & Protocols
+
 #### Model Context Protocol (MCP)
 
 [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) is an open-source standard for connecting AI applications to external systems. MCP enables agents to connect to various systems through a unified interface, promoting interoperability and reducing integration complexity.
@@ -155,36 +180,9 @@ Declarative agent definitions allow you to declare agent capabilities, prompts, 
 - MCP is a relatively new protocol, and its ecosystem is still maturing.
 - Security standards and specifications are also evolving quickly.
 
-#### Agent-to-Agent Protocol (A2A)
+### Agent-to-Agent Protocol (A2A)
 
-**Selection Criteria:**
 
-When selecting an implementation approach, consider the following parameters:
-
-- **Extensibility:** Determine how readily the approach supports adding new agents and features and capabilities in the system.
-- **Integration complexity:** Assess how easily the agent can connect with existing systems and data sources.
-- **Maintainability:** Consider the effort required to update, debug, and monitor agents as requirements evolve.
-- **Performance requirements:** Consider latency, throughput, and scalability needs based on expected usage patterns.
-- **Scalability:** Assess how well the approach supports increasing numbers of agents and higher workloads.
-- **Security:** Examine support for secure data handling, access controls, and adherence to organizational security standards.
-- **Interoperability:** Assess compatibility with standardized protocols and third-party services.
-- **Community Support:** Assess the availability of documentation, community resources, and official support for the chosen approach.
-
-Select the implementation method that best aligns with your system’s architectural priorities and operational constraints.
-Additionally, the architecture should support multiple implementation approaches simultaneously, allowing you to choose the most appropriate option for each agent based on its specific requirements and constraints.
-
-### Agent Factory
-
-The Factory Design Pattern is a well-established approach for creating objects where the system needs to manage and instantiate a variety of objects dynamically.
-When building a scalable multi-agent system, consider adding an AgentFactory in your architecture to centralize how agents are created and to decouple creation logic from runtime use. Given an agent name, the factory returns a ready-to-use agent instance regardless of its implementation (code, YAML template, etc.). This lets you add new agent types without changing orchestration logic.
-
-#### Key Design Considerations
-
-- The factory inspects available representations (code module, YAML, other) and instantiates the appropriate implementation.  
-- Allow configurable priority (for example, prefer YAML template over code) so you can control which implementation is used when multiples exist.  
-- Include validation, lightweight instantiation checks, and caching to avoid repeated heavy construction.  
-
-The Agent Factory pattern streamlines onboarding, testing, and evolution of an agent catalog, and preserves modularity and scalability by isolating agent changes from other system components.
 
 ### Evolution of system - Creating/updating Agents
 
