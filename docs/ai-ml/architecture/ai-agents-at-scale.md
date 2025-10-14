@@ -107,11 +107,11 @@ When designing a dynamic large scale multi-agent system, there are different imp
 
 #### In-Code
 
-Agents are defined programmitically in the application code and with the help of frameworks like [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/overview/agent-framework-overview), [LangChain](https://www.langchain.com/) etc.
+Agents are defined programmatically in the application code and with the help of frameworks like [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/overview/agent-framework-overview), [LangChain](https://www.langchain.com/) etc.
 
 **Advantages:**
 
-- Maximum control over agent logic and behavior.
+- Maximum control over agent logic and behaviour.
 - Direct integration with existing application infrastructure.
 - Efficient runtime performance through direct code execution.
 - Rich debugging and testing capabilities.
@@ -124,18 +124,18 @@ Agents are defined programmitically in the application code and with the help of
 
 #### Declarative
 
-Declarative agent definitions allow you to declare agent capabilities, prompts, and workflows in configuration files like [YAML](https://yaml.org/). This approach separates agent logic from application code, enabling non-developers to modify agent behavior without code changes.
+Declarative agent definitions allow you to declare agent capabilities, prompts, and workflows in configuration files like [YAML](https://yaml.org/). This approach separates agent logic from application code, enabling non-developers to modify agent behaviour without code changes.
 
 **Advantages:**
 
 - Easier to introduce new agents into the system without requiring code changes or redeployment.
-- Non-technical team members can also contribute to defining agent behavior.
+- Non-technical team members can also contribute to defining agent behaviour.
 - Faster iteration cycles for agent updates.
 - Clear separation of concerns between infrastructure and agent logic.
 
 **Considerations:**
 
-- Agent behavior and capabilities are restricted to what gets defined as part of the YAML schema. Extending functionality beyond these predefined patterns may require significant changes or custom development.
+- Agent behaviour and capabilities are restricted to what gets defined as part of the YAML schema. Extending functionality beyond these predefined patterns may require significant changes or custom development.
 - Validation and testing processes need to be established for YAML changes.
 
 **Selection Criteria:**
@@ -152,7 +152,7 @@ Additionally, the architecture should support multiple implementation approaches
 ### Agent Factory
 
 The Factory Design Pattern is a well-established approach for creating objects where the system needs to manage and instantiate a variety of objects dynamically.
-When building a scalable multi-agent system, consider adding an AgentFactory in your architecture to centralize how agents are created and to decouple creation logic from runtime use. Given an agent name, the factory returns a ready-to-use agent instance regardless of its implementation (code, YAML template, etc.). This lets you add new agent types without changing orchestration logic.
+When building a scalable multi-agent system, consider adding an Agent Factory in your architecture to centralize how agents are created and to decouple creation logic from runtime use. Given an agent name, the factory returns a ready-to-use agent instance regardless of its implementation (code, YAML template, etc.). This lets you add new agent types without changing orchestration logic.
 
 #### Key Design Considerations
 
@@ -160,7 +160,7 @@ When building a scalable multi-agent system, consider adding an AgentFactory in 
 - Allow configurable priority (for example, prefer YAML template over code) so you can control which implementation is used when multiples exist.  
 - Include validation, lightweight instantiation checks, and caching to avoid repeated heavy construction.  
 
-The Agent Factory pattern streamlines onboarding, testing, and evolution of an agent catalog, and preserves modularity and scalability by isolating agent changes from other system components.
+The Agent Factory pattern streamlines onboarding, testing, and evolution of an agent catalogue, and preserves modularity and scalability by isolating agent changes from other system components.
 
 ### LLM Integration Standards & Protocols
 
