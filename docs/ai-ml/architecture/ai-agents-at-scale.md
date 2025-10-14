@@ -182,6 +182,22 @@ The Agent Factory pattern streamlines onboarding, testing, and evolution of an a
 
 ### Agent-to-Agent Protocol (A2A)
 
+The Agent-to-Agent Protocol (A2A) defines a standardized communication framework that enables agents operating outside the core orchestrator to participate seamlessly in multi-agent conversations. This protocol is essential for architectures where agents are distributed across different systems, organizations, or infrastructure boundaries while maintaining cohesive collaboration.
+
+**Advantages:**
+
+- Enables distributed multi-agent architectures across organizational and infrastructure boundaries.
+- Supports both synchronous and asynchronous communication patterns for diverse agent interaction scenarios.
+- Provides robust security framework with authentication, authorization, and end-to-end encryption.
+- Built-in observability and monitoring capabilities for distributed tracing and performance tracking.
+- Seamless integration with existing enterprise systems and third-party agent frameworks.
+
+**Considerations:**
+
+- Requires additional infrastructure for service discovery, load balancing, and message routing.
+- Network latency and reliability become critical factors in cross-system agent communications.
+- Security complexity increases with distributed authentication and authorization across system boundaries.
+- Protocol versioning and backward compatibility management needed as the system evolves.
 
 
 ### Evolution of system - Creating/updating Agents
