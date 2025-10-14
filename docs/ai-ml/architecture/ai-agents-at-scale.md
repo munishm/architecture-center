@@ -77,7 +77,7 @@ A well-designed orchestration layer is essential for coordinating interactions a
 
 One can choose from various orchestration patterns to address specific solution needs. For detailed guidance on selecting and implementing these patterns, see [AI agent orchestration patterns](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns).
 
-For scenarios that require minimal degree of collaboration/conversation between agents, one may consider using "Agents as Tools" pattern. In this approach, a principal agent acts as the main coordinator, invoking other agents as "tools" to fulfill specific tasks. The principal agent interprets user intent and determines which agents to call using the function calling capabilities of large language models. For more details, see [Agents as Tools pattern](<<ToDo: Link to Agents as Tools>>).
+For scenarios that require minimal degree of collaboration/conversation between agents, one may consider using "Agents as Tools" pattern. In this approach, a principal agent acts as the main co-ordinator, invoking other agents as "tools" to fulfill specific tasks. The principal agent interprets user intent and determines which agents to call using the function calling capabilities of large language models. For more details, see [Agents as Tools pattern](<<ToDo: Link to Agents as Tools>>).
 
 **Recommended scenarios for the Agents as Tools pattern:**
 
