@@ -214,10 +214,10 @@ This repository provides a reproducible, config-driven evaluation pipeline tailo
 The code for evaluation framework can be references from this repo  -[Evaluation Framework repo](https://github.com/Azure-Samples/Agentic-Evaluations)
 
 #### Features
-1. **AI Foundry SDK** - Framework integrated with [Azure AI Evaluation SDK](https://pypi.org/project/azure-ai-evaluation/)
-2. **Built in and custom Evaluators** - Utilizes both built-in evaluators from AI Foundry ([see full list](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/general-purpose-evaluators)) and also enables custom evaluators. 
-3. **Config driven architecture** - yaml config to customize pipelines, add evaluators etc.,
-4. **Highly customizable pipelines** - not just limiting to evaluations, the framework enables adding own modules for data preprocessing, model inferencing and reporting.
+- **AI Foundry SDK** - Framework integrated with [Azure AI Evaluation SDK](https://pypi.org/project/azure-ai-evaluation/)
+-  **Built in and custom Evaluators** - Utilizes both built-in evaluators from AI Foundry ([see full list](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/general-purpose-evaluators)) and also enables custom evaluators. 
+-  **Config driven architecture** - yaml config to customize pipelines, add evaluators etc.,
+-  **Highly customizable pipelines** - not just limiting to evaluations, the framework enables adding own modules for data preprocessing, model inferencing and reporting.
 
 
 #### Evaluation Pipeline Diagram
@@ -226,11 +226,11 @@ The code for evaluation framework can be references from this repo  -[Evaluation
 
 #### Pipeline Flow
 
-1. **Preprocessing**: Transform golden datasets to evaluation-friendly format.
-2. **Experiment Execution**: Simulate agent interactions, generate outputs.
-3. **Data Transformation**: Reformat simulator outputs for evaluation.
-4. **Evaluation**: Run selected evaluators.
-5. **Reporting**: View results on AI Foundry dashboard or generate HTML reports.
+-  **Preprocessing**: Transform golden datasets to evaluation-friendly format.
+-  **Experiment Execution**: Simulate agent interactions, generate outputs.
+-  **Data Transformation**: Reformat simulator outputs for evaluation.
+-  **Evaluation**: Run selected evaluators.
+-  **Reporting**: View results on AI Foundry dashboard or generate HTML reports.
 
 #### Experimentation and Evaluation of Agentic systems
 
@@ -239,11 +239,12 @@ The code for evaluation framework can be references from this repo  -[Evaluation
 
 A step-by-step workflow for evaluating agentic systems and their components:
 
-**Agent Development**: Developers create or fine-tune new agents, define evaluation metrics, and prepare sample utterances or golden datasets.
-**Component-Level Evaluation**: Each agent or component is evaluated individually to ensure responses meet expectations.
+- **Agent Development**: Developers create or fine-tune new agents, define evaluation metrics, and prepare sample utterances or golden datasets.
+- **Component-Level Evaluation**: Each agent or component is evaluated individually to ensure responses meet expectations.
 **System-Level Evaluation**: Once agents are integrated, system-level evaluations are performed, including semantic cache and end-to-end (E2E) assessments.
-**Onboarding and Integration**: Agents undergo onboarding processes, such as semantic cache creation and E2E evaluation, to confirm readiness of agents to be onboarded maintaining the performance benchmarks and also make sure they do not impact the performance of exisiting agents. 
-**Iterative Improvement**: The process supports continuous refinement, ensuring agents maintain high performance and do not negatively impact the overall system.
+- **Onboarding and Integration**: Agents undergo onboarding processes, such as semantic cache creation and E2E evaluation, to confirm readiness of agents to be onboarded maintaining the performance benchmarks and also make sure they do not impact the performance of exisiting agents. 
+
+- **Iterative Improvement**: The process supports continuous refinement, ensuring agents maintain high performance and do not negatively impact the overall system.
 
 This structured approach enables robust validation, benchmarking, and integration of agents, supporting scalable and reliable deployment of agentic systems.
 
