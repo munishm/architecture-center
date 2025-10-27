@@ -261,13 +261,9 @@ This structured approach enables robust validation, benchmarking, and integratio
 | Evaluator                     | Query       | Response    | Context     | Ground Truth | Conversation |
 |------------------------------|-------------|-------------|-------------|---------------|--------------|
 | RelevanceEvaluator           | Required    | Required    | N/A         | N/A           | Yes          |
-| FluencyEvaluator             | N/A         | Required    | N/A         | N/A           | Yes          |
-| GroundednessEvaluator        | Optional    | Required    | Required    | N/A           | Yes          |
 | SimilarityEvaluator          | Required    | Required    | N/A         | Required      | No           |
-| RougeScoreEvaluator          | N/A         | Required    | N/A         | Required      | No           |
 | ContentSafetyEvaluator       | Required    | Required    | N/A         | N/A           | Yes          |
-| CodeVulnerabilityEvaluator   | Required    | Required    | N/A         | N/A           | Yes          |
-| CoherenceEvaluator           | Required    | Required    | N/A         | N/A           | Yes          |
+
 
 *For full list of evaluators, refer to the [AI Foundry Evaluator Reference](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/evaluate-sdk)*
 
