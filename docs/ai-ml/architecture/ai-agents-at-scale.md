@@ -204,7 +204,59 @@ The Agent-to-Agent Protocol (A2A) defines a standardized communication framework
 
 ## Evaluation Framework
 
-Details around a possible structure of an evaluation framework
+### Agentic System Evaluation Framework using Azure AI Foundry
+
+ A comprehensive framework for evaluating agentic systems or other LLM/SLM systems leveraging Azure AI Foundry. It focuses on evaluating the inner mechanics of agent-based systems, such as tool invocation, agent selection, and final responses, using both built-in and custom evaluation metrics. The framework also includes visualization of bench mark and detailed analysis through AI Foundry Evaluation dashboard.
+
+### Overview
+
+This repository provides a reproducible, config-driven evaluation pipeline tailored for gen ai and agentic systems. Azure AI Foundry built‑in evaluators for standardized scoring, and project‑specific custom evaluators for agent‑level metrics.   The flow is organized into modular stages (data_loading, data_preprocessing, evaluation, reporting) driven by experiment YAMLs so you can swap datasets, models, or evaluators without changing code. Inputs/outputs use JSONL/golden dataset formats, and results can be uploaded to blob storage and visualized via the AI Foundry Evaluation dashboard for comparison across runs.
+The code for evaluation framework can be references from this repo  -[Evaluation Framework repo](https://github.com/Azure-Samples/Agentic-Evaluations)
+
+#### Features
+1. **AI Foundry SDK** - Framework integrated with [Azure AI Evaluation SDK](https://pypi.org/project/azure-ai-evaluation/)
+2. **Built in and custom Evaluators** - Utilizes both built-in evaluators from AI Foundry ([see full list](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/general-purpose-evaluators)) and also enables custom evaluators. 
+3. **Config driven architecture** - yaml config to customize pipelines, add evaluators etc.,
+4. **Highly customizable pipelines** - not just limiting to evaluations, the framework enables adding own modules for data preprocessing, model inferencing and reporting.
+
+
+#### Evaluation Pipeline Diagram
+
+![Evaluation Pipeline](../architecture/_images/eval_framework_flow.png)
+
+#### Pipeline Flow
+
+1. **Preprocessing**: Transform golden datasets to evaluation-friendly format.
+2. **Experiment Execution**: Simulate agent interactions, generate outputs.
+3. **Data Transformation**: Reformat simulator outputs for evaluation.
+4. **Evaluation**: Run selected evaluators.
+5. **Reporting**: View results on AI Foundry dashboard or generate HTML reports.
+
+
+## Evaluation Metrics for Agentic Systems
+
+| Metric               | Description                                                                      |
+|----------------------|----------------------------------------------------------------------------------|
+| Tool Call Accuracy   | Measures correctness of tool invocations and arguments.                          |
+| Agent Selection      | Evaluates whether the right agent handled the message/task.                      |
+| Task Adherence       | Checks whether the final output aligns with assigned agent tasks.                |
+
+## Built-in Evaluators (Azure AI Foundry)
+
+| Evaluator                     | Query       | Response    | Context     | Ground Truth | Conversation |
+|------------------------------|-------------|-------------|-------------|---------------|--------------|
+| RelevanceEvaluator           | Required    | Required    | N/A         | N/A           | Yes          |
+| FluencyEvaluator             | N/A         | Required    | N/A         | N/A           | Yes          |
+| GroundednessEvaluator        | Optional    | Required    | Required    | N/A           | Yes          |
+| SimilarityEvaluator          | Required    | Required    | N/A         | Required      | No           |
+| RougeScoreEvaluator          | N/A         | Required    | N/A         | Required      | No           |
+| ContentSafetyEvaluator       | Required    | Required    | N/A         | N/A           | Yes          |
+| CodeVulnerabilityEvaluator   | Required    | Required    | N/A         | N/A           | Yes          |
+| CoherenceEvaluator           | Required    | Required    | N/A         | N/A           | Yes          |
+
+*For full list of evaluators, refer to the [AI Foundry Evaluator Reference](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/evaluate-sdk)*
+
+ 
 
 ## Agent Onboarding Process
 
