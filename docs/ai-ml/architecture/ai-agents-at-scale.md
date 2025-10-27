@@ -232,6 +232,21 @@ The code for evaluation framework can be references from this repo  -[Evaluation
 4. **Evaluation**: Run selected evaluators.
 5. **Reporting**: View results on AI Foundry dashboard or generate HTML reports.
 
+#### Experimentation and Evaluation of Agentic systems
+
+![Experimentation and Evaluation](../architecture/_images/Experimentation&evaluation.png)
+
+
+A step-by-step workflow for evaluating agentic systems and their components:
+
+Agent Development: Developers create or fine-tune new agents, define evaluation metrics, and prepare sample utterances or golden datasets.
+Component-Level Evaluation: Each agent or component is evaluated individually to ensure responses meet expectations.
+System-Level Evaluation: Once agents are integrated, system-level evaluations are performed, including semantic cache and end-to-end (E2E) assessments.
+Onboarding and Integration: Agents undergo onboarding processes, such as semantic cache creation and E2E evaluation, to confirm readiness for production.
+Iterative Improvement: The process supports continuous refinement, ensuring agents maintain high performance and do not negatively impact the overall system.
+
+This structured approach enables robust validation, benchmarking, and integration of agents, supporting scalable and reliable deployment of agentic systems.
+
 
 ## Evaluation Metrics for Agentic Systems
 
