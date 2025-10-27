@@ -239,11 +239,21 @@ The code for evaluation framework can be references from this repo  -[Evaluation
 
 A step-by-step workflow for evaluating agentic systems and their components:
 
-- **Agent Development**: Developers create or fine-tune new agents, define evaluation metrics, and prepare sample utterances or golden datasets.
-- **Component-Level Evaluation**: Each agent or component is evaluated individually to ensure responses meet expectations.
-- **System-Level Evaluation**: Once agents are integrated, system-level evaluations are performed, including semantic cache and end-to-end (E2E) assessments.
-- **Onboarding and Integration**: Agents undergo onboarding processes, such as semantic cache creation and E2E evaluation, to confirm readiness of agents to be onboarded maintaining the performance benchmarks and also make sure they do not impact the performance of exisiting agents. 
-- **Iterative Improvement**: The process supports continuous refinement, ensuring agents maintain high performance and do not negatively impact the overall system.
+
+1. **Agent Development**  
+    Developers create or fine-tune new agents, define evaluation metrics, and prepare sample utterances or golden datasets.
+
+2. **Component-Level Evaluation**  
+    Evaluate each agent or component individually to ensure its responses meet defined expectations and quality standards.
+
+3. **System-Level Evaluation**  
+    After integration, perform system-level evaluations, including semantic cache checks and end-to-end (E2E) assessments, to validate overall system behavior.
+
+4. **Onboarding and Integration**  
+    Agents undergo onboarding processes such as semantic cache creation and E2E evaluation. This step confirms that new agents meet performance benchmarks and do not degrade the performance of existing agents.
+
+5. **Iterative Improvement**  
+    Continuously refine agents and the system, ensuring high performance is maintained and that changes do not negatively impact the overall solution.
 
 This structured approach enables robust validation, benchmarking, and integration of agents, supporting scalable and reliable deployment of agentic systems.
 
