@@ -1,17 +1,16 @@
 # Dynamic AI Agents at scale pattern
 
-This architecture describes a multi-agent agentic solution, that allows dynamic selection of probable agents in a conversation out of a big universe of 100s of agents. The architecture explains the key challenges in building a dynamic inclusion agentic system, possible orchestration options and evaluating the system as it scales to 100s of agents.
+This architecture outlines a multi-agent solution that enables dynamic selection of relevant agents from a large pool of agents during a conversation. It addresses the main challenges of building a system that can flexibly include agents, explores orchestration strategies, and discusses considerations for scaling to hundreds of agents.
 
-This architecture applies Azure AI Foundry, Azure AI Search, Azure Open AI in Azure AI Foundry models, and other azure services to build a scalable agentic solution.
+The solution leverages Azure AI Foundry, Azure AI Search, Azure OpenAI within Foundry models, and other Azure services to support scalable agent-based interactions.
 
-The architecture is mostly valid for use-cases where there are many agents involved in open-ended conversations with the clients, and conversation domain is not fixed.
+This approach is best suited for scenarios involving numerous agents participating in open-ended client conversations, where the conversation domain is not predetermined.
 
 # Key Challenges
 
 ## Dynamic inclusion of agents
 
-Imagine that your organization has multiple domain specialized agents, and you want to build a single conversation AI which allows the clients to use any of these agents, without excatly being concerned about which agent is doing the work. In addition, there can be situations where more than one agent is being used in a single conversation (multi-intent scenario), for example - "Help me book a conference room in Yosemite floor, and inform the parking services that I may need 5 spots for customers meeting on 26th." - This use case could be using ConferenceBooking Agent, as well as the ParkingServiceAgent to do both works. Essentially, it's a simple problem to solve when the number of agents/tools is smaller (like under 20), and mostly [function calling](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/function-calling/?pivots=programming-language-python) pattern does a good job.
-Choosing which particular function before adding in a conversation is one of the key challenges here, when the list of agents grow longer.
+Imagine your organization has several domain-specific agents and you want to create a unified conversational AI that enables clients to interact with any of these agents, without needing to know which agent is handling which task. In some cases, multiple agents may be involved in a single conversation to address multi-intent requests. For example: “Help me book a conference room on the Yosemite floor, and notify parking services that I’ll need five spots for a customer meeting on the 26th.” This scenario would engage both the ConferenceBookingAgent and the ParkingServiceAgent. Managing agent selection is straightforward when the number of agents or tools is small (fewer than 20), and a [function calling](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/function-calling/?pivots=programming-language-python) pattern is typically effective. However, as the number of agents increases, determining which agent or function to invoke in a conversation becomes a significant challenge.
 
 ## Cost optimization
 
@@ -25,13 +24,11 @@ Return on investment is a big concern for all agentic systems, Token count is a 
 
 ## Orchestration
 
-There are many options in orchestrating a multi-agent conversation; options like Group chat, Handoff, concurrent, sequential, Magentic etc.
-A key challenge is to figure out, what is the orchestration pattern for your business in particular cases? In multi-agent systems - specialized agents are built to converse with each other or do a job after one another, while in many systems the nature of each agent can be stark different and yet the client's may expect multiple agents to finish the job concurrently.
-In this architecture, we will put out a view point on possible selection of orchestration pattern when working at a dynamic scale, as at dynamic scale the nature of exact business and relations within agents may not be always known.
+There are multiple ways to orchestrate multi-agent conversations. The primary challenge lies in identifying which orchestration pattern is most suitable for your specific business needs. Some agents may be configured to interact or complete tasks sequentially, while others have distinct roles and may need to collaborate concurrently to address client requests. This architecture provides guidance on choosing orchestration patterns for dynamic environments, where the precise business context and agent relationships may not always be well-defined.
 
 ## Evaluating as system evolves
 
-As you build an agentic solution, it's vital to keep evaluating your system. Both Agent, as well as orchestration and impact of a new agent on overall system needs to be evaluated.
+When developing an agent-based solution, it is essential to continuously assess the system. Evaluate both individual agents and the orchestration layer, as well as the impact that introducing a new agent may have on the overall system.
 
 # Architecture
 
@@ -161,44 +158,6 @@ When building a scalable multi-agent system, consider adding an AgentFactory in 
 - Include validation, lightweight instantiation checks, and caching to avoid repeated heavy construction.  
 
 The Agent Factory pattern streamlines onboarding, testing, and evolution of an agent catalog, and preserves modularity and scalability by isolating agent changes from other system components.
-
-### LLM Integration Standards & Protocols
-
-#### Model Context Protocol (MCP)
-
-[MCP](https://modelcontextprotocol.io/docs/getting-started/intro) is an open-source standard for connecting AI applications to external systems. MCP enables agents to connect to various systems through a unified interface, promoting interoperability and reducing integration complexity.
-
-**Advantages:**
-
-- Widely adopted open-source standard for connecting large language models (LLMs) to external data, tools, and services, supported by an active industry community.
-- Vendor-agnostic approach supporting multiple service providers.
-- Simplified agent development through reusable MCP servers.
-- Accelerates development by enabling you to build or integrate with existing MCP servers, reducing the need to create new integrations for each service.
-
-**Considerations:**
-
-- MCP is a relatively new protocol, and its ecosystem is still maturing.
-- Security standards and specifications are also evolving quickly.
-
-### Agent-to-Agent Protocol (A2A)
-
-The Agent-to-Agent Protocol (A2A) defines a standardized communication framework that enables agents operating outside the core orchestrator to participate seamlessly in multi-agent conversations. This protocol is essential for architectures where agents are distributed across different systems, organizations, or infrastructure boundaries while maintaining cohesive collaboration.
-
-**Advantages:**
-
-- Enables distributed multi-agent architectures across organizational and infrastructure boundaries.
-- Supports both synchronous and asynchronous communication patterns for diverse agent interaction scenarios.
-- Provides robust security framework with authentication, authorization, and end-to-end encryption.
-- Built-in observability and monitoring capabilities for distributed tracing and performance tracking.
-- Seamless integration with existing enterprise systems and third-party agent frameworks.
-
-**Considerations:**
-
-- Requires additional infrastructure for service discovery, load balancing, and message routing.
-- Network latency and reliability become critical factors in cross-system agent communications.
-- Security complexity increases with distributed authentication and authorization across system boundaries.
-- Protocol versioning and backward compatibility management needed as the system evolves.
-
 
 ### Evolution of system - Creating/updating Agents
 
