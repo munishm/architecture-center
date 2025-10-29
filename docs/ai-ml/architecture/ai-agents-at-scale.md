@@ -1,17 +1,16 @@
 # Dynamic AI Agents at scale pattern
 
-This architecture describes a multi-agent agentic solution, that allows dynamic selection of probable agents in a conversation out of a big universe of 100s of agents. The architecture explains the key challenges in building a dynamic inclusion agentic system, possible orchestration options and evaluating the system as it scales to 100s of agents.
+This architecture outlines a multi-agent solution that enables dynamic selection of relevant agents from a large pool of agents during a conversation. It addresses the main challenges of building a system that can flexibly include agents, explores orchestration strategies, and discusses considerations for scaling to hundreds of agents.
 
-This architecture applies Azure AI Foundry, Azure AI Search, Azure Open AI in Azure AI Foundry models, and other azure services to build a scalable agentic solution.
+The solution leverages Azure AI Foundry, Azure AI Search, Azure OpenAI within Foundry models, and other Azure services to support scalable agent-based interactions.
 
-The architecture is mostly valid for use-cases where there are many agents involved in open-ended conversations with the clients, and conversation domain is not fixed.
+This approach is best suited for scenarios involving numerous agents participating in open-ended client conversations, where the conversation domain is not predetermined.
 
 # Key Challenges
 
 ## Dynamic inclusion of agents
 
-Imagine that your organization has multiple domain specialized agents, and you want to build a single conversation AI which allows the clients to use any of these agents, without excatly being concerned about which agent is doing the work. In addition, there can be situations where more than one agent is being used in a single conversation (multi-intent scenario), for example - "Help me book a conference room in Yosemite floor, and inform the parking services that I may need 5 spots for customers meeting on 26th." - This use case could be using ConferenceBooking Agent, as well as the ParkingServiceAgent to do both works. Essentially, it's a simple problem to solve when the number of agents/tools is smaller (like under 20), and mostly [function calling](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/function-calling/?pivots=programming-language-python) pattern does a good job.
-Choosing which particular function before adding in a conversation is one of the key challenges here, when the list of agents grow longer.
+Imagine your organization has several domain-specific agents and you want to create a unified conversational AI that enables clients to interact with any of these agents, without needing to know which agent is handling which task. In some cases, multiple agents may be involved in a single conversation to address multi-intent requests. For example: “Help me book a conference room on the Yosemite floor, and notify parking services that I’ll need five spots for a customer meeting on the 26th.” This scenario would engage both the ConferenceBookingAgent and the ParkingServiceAgent. Managing agent selection is straightforward when the number of agents or tools is small (fewer than 20), and a [function calling](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/function-calling/?pivots=programming-language-python) pattern is typically effective. However, as the number of agents increases, determining which agent or function to invoke in a conversation becomes a significant challenge.
 
 ## Cost optimization
 
@@ -25,13 +24,11 @@ Return on investment is a big concern for all agentic systems, Token count is a 
 
 ## Orchestration
 
-There are many options in orchestrating a multi-agent conversation; options like Group chat, Handoff, concurrent, sequential, Magentic etc.
-A key challenge is to figure out, what is the orchestration pattern for your business in particular cases? In multi-agent systems - specialized agents are built to converse with each other or do a job after one another, while in many systems the nature of each agent can be stark different and yet the client's may expect multiple agents to finish the job concurrently.
-In this architecture, we will put out a view point on possible selection of orchestration pattern when working at a dynamic scale, as at dynamic scale the nature of exact business and relations within agents may not be always known.
+There are multiple ways to orchestrate multi-agent conversations. The primary challenge lies in identifying which orchestration pattern is most suitable for your specific business needs. Some agents may be configured to interact or complete tasks sequentially, while others have distinct roles and may need to collaborate concurrently to address client requests. This architecture provides guidance on choosing orchestration patterns for dynamic environments, where the precise business context and agent relationships may not always be well-defined.
 
 ## Evaluating as system evolves
 
-As you build an agentic solution, it's vital to keep evaluating your system. Both Agent, as well as orchestration and impact of a new agent on overall system needs to be evaluated.
+When developing an agent-based solution, it is essential to continuously assess the system. Evaluate both individual agents and the orchestration layer, as well as the impact that introducing a new agent may have on the overall system.
 
 # Architecture
 
@@ -162,44 +159,6 @@ When building a scalable multi-agent system, consider adding an Agent Factory in
 
 The Agent Factory pattern streamlines onboarding, testing, and evolution of an agent catalogue, and preserves modularity and scalability by isolating agent changes from other system components.
 
-### LLM Integration Standards & Protocols
-
-#### Model Context Protocol (MCP)
-
-[MCP](https://modelcontextprotocol.io/docs/getting-started/intro) is an open-source standard for connecting AI applications to external systems. MCP enables agents to connect to various systems through a unified interface, promoting interoperability and reducing integration complexity.
-
-**Advantages:**
-
-- Widely adopted open-source standard for connecting large language models (LLMs) to external data, tools, and services, supported by an active industry community.
-- Vendor-agnostic approach supporting multiple service providers.
-- Simplified agent development through reusable MCP servers.
-- Accelerates development by enabling you to build or integrate with existing MCP servers, reducing the need to create new integrations for each service.
-
-**Considerations:**
-
-- MCP is a relatively new protocol, and its ecosystem is still maturing.
-- Security standards and specifications are also evolving quickly.
-
-### Agent-to-Agent Protocol (A2A)
-
-The Agent-to-Agent Protocol (A2A) defines a standardized communication framework that enables agents operating outside the core orchestrator to participate seamlessly in multi-agent conversations. This protocol is essential for architectures where agents are distributed across different systems, organizations, or infrastructure boundaries while maintaining cohesive collaboration.
-
-**Advantages:**
-
-- Enables distributed multi-agent architectures across organizational and infrastructure boundaries.
-- Supports both synchronous and asynchronous communication patterns for diverse agent interaction scenarios.
-- Provides robust security framework with authentication, authorization, and end-to-end encryption.
-- Built-in observability and monitoring capabilities for distributed tracing and performance tracking.
-- Seamless integration with existing enterprise systems and third-party agent frameworks.
-
-**Considerations:**
-
-- Requires additional infrastructure for service discovery, load balancing, and message routing.
-- Network latency and reliability become critical factors in cross-system agent communications.
-- Security complexity increases with distributed authentication and authorization across system boundaries.
-- Protocol versioning and backward compatibility management needed as the system evolves.
-
-
 ### Evolution of system - Creating/updating Agents
 
 ## Evaluation Framework
@@ -297,7 +256,6 @@ Each component contributes to the outcome, which makes **monitoring, debugging, 
 
 That's where **observability** becomes essential—not as a buzzword, but as the foundation for understanding emergent AI behavior.
 
----
 
 ## Why observability matters in AI systems
 
@@ -319,25 +277,8 @@ We've built our observability framework on **OpenTelemetry** for instrumentation
 - **OpenTelemetry** standardizes how traces, metrics, and logs are captured across agents and services. It ensures interoperability across frameworks and programming languages.  
 - **Application Insights** aggregates and visualizes this telemetry—offering dashboards, alerts, and the ability to explore correlations between infrastructure metrics, application traces, and LLM inference data.
 
-For agents built with **Semantic Kernel**, observability is integrated through OpenTelemetry's standardized instrumentation. Semantic Kernel automatically emits traces, logs, and metrics for kernel operations such as function invocations, prompt executions, and plugin calls when you configure OpenTelemetry:
+For agents built with **Semantic Kernel**, observability is integrated through OpenTelemetry's standardized instrumentation. Semantic Kernel automatically emits traces, logs, and metrics for kernel operations such as function invocations, prompt executions, and plugin calls when you configure OpenTelemetry.
 
-```python
-from opentelemetry import trace
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from azure.monitor.opentelemetry.exporter import AzureMonitorTraceExporter
-
-# Configure OpenTelemetry with Application Insights
-trace.set_tracer_provider(TracerProvider())
-tracer = trace.get_tracer(__name__)
-
-span_processor = BatchSpanProcessor(
-    AzureMonitorTraceExporter.from_connection_string(
-        connection_string="<your-application-insights-connection-string>"
-    )
-)
-trace.get_tracer_provider().add_span_processor(span_processor)
-```
 
 
 ## The three dimensions of agentic observability
@@ -345,28 +286,16 @@ trace.get_tracer_provider().add_span_processor(span_processor)
 Traditional observability stops at *logs, metrics, and traces*.  
 In AI systems, we extend those pillars to include **semantic and behavioral observability**—how agents reason, collaborate, and evolve during execution.
 
-### 1. Execution logs  
+#### 1. Execution logs  
 Beyond infrastructure logging, we capture **semantic events**: prompts, responses, and intermediate reasoning steps between agents.  
-Logs here are not just for debugging—they help reconstruct **conversation context**, agent decisions, and prompt flow.  
-
 All log data is streamed via **OpenTelemetry exporters** to **Azure Log Analytics**, where we use **KQL** to correlate across agents and identify anomalies at the conversation level.
 
----
 
-### 2. System and model metrics  
+#### 2. System and model metrics  
 Metrics provide quantitative signals about both system and model performance.  
-We track latency, throughput, and cost—but also **AI-specific metrics** such as:
+We track latency, throughput, and cost—but also **AI-specific metrics** such as token usage, TTFT etc. 
 
-- Token usage (prompt vs. completion)  
-- TTFT (time to first token)  
-- Model call success and error rates  
-- Conversation depth and engagement trends  
-
-These metrics help balance efficiency, quality, and responsiveness—critical for understanding user experience and inference cost at scale.
-
----
-
-### 3. Distributed traces with context  
+#### 3. Distributed traces with context  
 Traces connect every service and agent involved in a single conversation.  
 By using **trace IDs** and **span IDs**, we can view the full path of an inference request—from the orchestrator to downstream agents, caches, and external calls.
 
@@ -403,48 +332,7 @@ Capturing this metadata enables **reproducibility** of inference runs—helping 
 
 ## Key metrics categories
 
-To maintain comprehensive visibility, we track multiple metric layers:
-
-### **System Performance**
-- Latency (per component and overall)
-- Throughput and active request load
-- Resource utilization (CPU, memory, disk I/O)
-- Reliability (error rate, uptime)
-- Connection and authentication failures
-
-### **LLM Inference Performance**
-- TTFT (time to first token)
-- Token usage (prompt vs. completion)
-- Error rates and retry counts
-- Content safety triggers and blocked responses
-
-### **Usage & Engagement**
-- Active conversations and users (DAU, MAU)
-- Conversation depth and duration
-- Repeated or abandoned queries
-
-### **Quality & Model Accuracy**
-- Intent and agent selection accuracy (precision, recall, F1)
-- Sentiment trends in generated responses
-- Instruction adherence and factual consistency
-- Bias, fairness, and groundedness indicators
-
-## Example: Capturing LLM metrics
-
-We use lightweight wrappers to record LLM inference metrics directly from agent services:
-
-```python
-from observability.record_metrics.record_llm_inference_metrics import record_llm_metrics
-
-# Record token usage
-record_llm_metrics(
-    prompt_tokens=prompt_tokens,
-    completion_tokens=completion_tokens,
-    total_tokens=total_tokens,
-    labels={"agent_name": "reception-agent","operation": "generate-response", "status": "success"},
-    component="agent-service"
-)
-```
+Track **system performance** metrics (latency, throughput, resource utilization, reliability) and **LLM inference performance** metrics (TTFT, token usage, error rates, content safety triggers). Additionally, monitor **usage and engagement** patterns (active conversations, conversation depth, repeated queries) and **quality and model accuracy** indicators (intent selection accuracy, sentiment trends, instruction adherence, bias and groundedness).
 
 ## Best practices
 
