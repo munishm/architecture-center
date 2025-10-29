@@ -28,7 +28,9 @@ There are multiple ways to orchestrate multi-agent conversations. The primary ch
 
 ## Evaluating as system evolves
 
-When developing an agent-based solution, it is essential to continuously assess the system. Evaluate both individual agents and the orchestration layer, as well as the impact that introducing a new agent may have on the overall system.
+When developing an agent-based solution, you must regularly evaluate the system at multiple levels. Assess the performance of individual agents, the orchestration layer, and the overall system behavior. Each time you introduce or update an agent, measure its effect on agent selection, orchestration, and the functioning of other agents. Ongoing evaluation helps ensure that new agents do not degrade system performance. 
+
+![Evaluation Core](./_images/Evaluation_core.png)
 
 # Architecture
 
