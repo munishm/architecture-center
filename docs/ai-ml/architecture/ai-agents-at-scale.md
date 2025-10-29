@@ -28,9 +28,9 @@ There are multiple ways to orchestrate multi-agent conversations. The primary ch
 
 ## Evaluating as system evolves
 
-When developing an agent-based solution, you must regularly evaluate the system at multiple levels. Assess the performance of individual agents, the orchestration layer, and the overall system behavior. Each time you introduce or update an agent, measure its effect on agent selection, orchestration, and the functioning of other agents. Ongoing evaluation helps ensure that new agents do not degrade system performance. 
+When developing an agent-based solution, you must regularly evaluate the system at multiple levels. Assess the performance of individual agents, the orchestration layer, and the overall system behavior. Each time you introduce or update an agent, measure its effect on agent selection, orchestration, and the functioning of other agents. Ongoing evaluation helps ensure that new agents do not degrade system performance. For more details, see the [Evaluation Framework](#evaluation-framework) section. 
 
-![Evaluation Core](./_images/Evaluation_core.png)
+<img src="./_images/Evaluation_core.png" alt="Evaluation Core" width="500" />
 
 # Architecture
 
@@ -232,7 +232,7 @@ This structured approach enables robust validation, benchmarking, and integratio
 | Agent invoke accuracy, recall        | Evaluates whether the right agent handled the message/task.      |
 | Agent selection recall, precision    | Measures if list of agents suggested by cache as expected        |
 
-## Evalation of Agent Response (Azure AI Foundry)
+## Evaluation of Agent Response (Azure AI Foundry)
 | Metric                               | Description                                                      |
 |--------------------------------------|------------------------------------------------------------------|
 | Bleu score      | Evaluate if the response from agent matches with groud truth                          |
