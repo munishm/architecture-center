@@ -161,15 +161,24 @@ The Agent Factory pattern streamlines onboarding, testing, and evolution of an a
 
 ### Evolution of system - Creating/updating Agents
 
+
+
+## Agent Onboarding Process
+
+The idea behind this process is to maintain a high-quality, conflict-free multi-agent system where every agent addition, update, or removal is deliberate and validated. Agents are the building blocks of intelligent orchestration, so introducing or modifying one without checks can lead to degraded performance, overlapping responsibilities, or broken user experiences. To prevent this, the lifecycle emphasizes evaluation-driven governance at every stage. Below is a flow diagram of the onboarding process.
+
+![AI Agents Onboarding Process](_images/ai-agents-at-scale-onboarding-process.png)
+
+The process starts with onboarding a new agent, which involves verifying the uniqueness of its name, description, and sample utterances. Once validated, a temporary semantic cache is created, and the system runs semantic and response evaluations to ensure the new agent doesn’t negatively impact existing ones. If results meet benchmarks, the agent is promoted to production, and the golden dataset—our ground truth for evaluations—is updated to reflect the new capabilities. Similarly, when updating an agent, the same validation and regression checks apply to avoid selection drift. Updating the golden dataset is critical for keeping evaluations aligned with real-world usage, while deleting an agent requires careful decommissioning steps to remove dependencies and maintain system integrity. This structured approach ensures scalability without sacrificing accuracy or reliability.
+
+
 ## Evaluation Framework
 
 ### Agentic System Evaluation Framework using Azure AI Foundry
 
- A comprehensive framework for evaluating agentic systems or other LLM/SLM systems leveraging Azure AI Foundry. It focuses on evaluating the inner mechanics of agent-based systems, such as tool invocation, agent selection, and final responses, using both built-in and custom evaluation metrics. The framework also includes visualization of bench mark and detailed analysis through AI Foundry Evaluation dashboard.
+ A comprehensive framework for evaluating agentic systems leveraging Azure AI Foundry. It focuses on evaluating the inner mechanics of agent-based systems, such as tool invocation, agent selection, and final responses, using both built-in and custom evaluation metrics. The framework also includes visualization of bench mark and detailed analysis through AI Foundry Evaluation dashboard.
 
-### Overview
-
-This repository provides a reproducible, config-driven evaluation pipeline tailored for gen ai and agentic systems. Azure AI Foundry built‑in evaluators for standardized scoring, and project‑specific custom evaluators for agent‑level metrics.   The flow is organized into modular stages (data_loading, data_preprocessing, evaluation, reporting) driven by experiment YAMLs so you can swap datasets, models, or evaluators without changing code. Inputs/outputs use JSONL/golden dataset formats, and results can be uploaded to blob storage and visualized via the AI Foundry Evaluation dashboard for comparison across runs.
+The framework utilizes AI Foundry evaluation sdk built to simplify the process of experimentation and evaluation. Config-driven approch combined with pipeline based architecture provides flexibility to add any module as part of pipeline. Further the sdk provides options to use Azure AI Foundry built‑in evaluators for standardized scoring, and custom evaluator metrics that could be easily added for measuring the agent performance.  The flow is organized into modular stages (data_loading, data_preprocessing, evaluation, reporting) with easily swappable datasets, inference models, or evaluators. Inputs/outputs use JSONL/golden dataset formats, and results can be uploaded to blob storage and visualized via the AI Foundry Evaluation dashboard for comparison across runs.
 The code for evaluation framework can be references from this repo  -[Evaluation Framework repo](https://github.com/Azure-Samples/Agentic-Evaluations)
 
 #### Features
@@ -208,10 +217,7 @@ A step-by-step workflow for evaluating agentic systems and their components:
 3. **System-Level Evaluation**  
     After integration, perform system-level evaluations, including semantic cache checks and end-to-end (E2E) assessments, to validate overall system behavior.
 
-4. **Onboarding and Integration**  
-    Agents undergo onboarding processes such as semantic cache creation and E2E evaluation. This step confirms that new agents meet performance benchmarks and do not degrade the performance of existing agents.
-
-5. **Iterative Improvement**  
+4. **Iterative Improvement**  
     Continuously refine agents and the system, ensuring high performance is maintained and that changes do not negatively impact the overall solution.
 
 This structured approach enables robust validation, benchmarking, and integration of agents, supporting scalable and reliable deployment of agentic systems.
@@ -236,15 +242,6 @@ This structured approach enables robust validation, benchmarking, and integratio
 
 *For full list of evaluators, refer to the [AI Foundry Evaluator Reference](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/evaluate-sdk)*
 
- 
-
-## Agent Onboarding Process
-
-The idea behind this process is to maintain a high-quality, conflict-free multi-agent system where every agent addition, update, or removal is deliberate and validated. Agents are the building blocks of intelligent orchestration, so introducing or modifying one without checks can lead to degraded performance, overlapping responsibilities, or broken user experiences. To prevent this, the lifecycle emphasizes evaluation-driven governance at every stage. Below is a flow diagram of the onboarding process.
-
-![AI Agents Onboarding Process](_images/ai-agents-at-scale-onboarding-process.png)
-
-The process starts with onboarding a new agent, which involves verifying the uniqueness of its name, description, and sample utterances. Once validated, a temporary semantic cache is created, and the system runs semantic and response evaluations to ensure the new agent doesn’t negatively impact existing ones. If results meet benchmarks, the agent is promoted to production, and the golden dataset—our ground truth for evaluations—is updated to reflect the new capabilities. Similarly, when updating an agent, the same validation and regression checks apply to avoid selection drift. Updating the golden dataset is critical for keeping evaluations aligned with real-world usage, while deleting an agent requires careful decommissioning steps to remove dependencies and maintain system integrity. This structured approach ensures scalability without sacrificing accuracy or reliability.
 
 ## Observability
 
