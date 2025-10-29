@@ -225,21 +225,20 @@ A step-by-step workflow for evaluating agentic systems and their components:
 This structured approach enables robust validation, benchmarking, and integration of agents, supporting scalable and reliable deployment of agentic systems.
 
 
-## Evaluation Metrics for Agentic Systems
+## Evaluation Metrics for Agentic Selection
 
-| Metric               | Description                                                                      |
-|----------------------|----------------------------------------------------------------------------------|
-| Tool Call Accuracy   | Measures correctness of tool invocations and arguments.                          |
-| Agent Selection      | Evaluates whether the right agent handled the message/task.                      |
-| Task Adherence       | Checks whether the final output aligns with assigned agent tasks.                |
+| Metric                               | Description                                                      |
+|--------------------------------------|------------------------------------------------------------------|
+| Agent invoke accuracy, recall        | Evaluates whether the right agent handled the message/task.      |
+| Agent selection recall, precision    | Measures if list of agents suggested by cache as expected        |
 
-## Built-in Evaluators (Azure AI Foundry)
+## Evalation of Agent Response (Azure AI Foundry)
+| Metric                               | Description                                                      |
+|--------------------------------------|------------------------------------------------------------------|
+| Bleu score      | Evaluate if the response from agent matches with groud truth                          |
+| Similarity      | Measure how similar is agent response compared to ground truth response               |
+| Relevance       | Measures the relevance of agent reponse for a query                                   |
 
-| Evaluator                     | Query       | Response    | Context     | Ground Truth | Conversation |
-|------------------------------|-------------|-------------|-------------|---------------|--------------|
-| RelevanceEvaluator           | Required    | Required    | N/A         | N/A           | Yes          |
-| SimilarityEvaluator          | Required    | Required    | N/A         | Required      | No           |
-| ContentSafetyEvaluator       | Required    | Required    | N/A         | N/A           | Yes          |
 
 
 *For full list of evaluators, refer to the [AI Foundry Evaluator Reference](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/evaluate-sdk)*
