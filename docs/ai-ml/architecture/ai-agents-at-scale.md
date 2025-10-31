@@ -28,7 +28,9 @@ There are multiple ways to orchestrate multi-agent conversations. The primary ch
 
 ## Evaluating as system evolves
 
-When developing an agent-based solution, it is essential to continuously assess the system. Evaluate both individual agents and the orchestration layer, as well as the impact that introducing a new agent may have on the overall system.
+Regular evaluation at multiple levels is essential in agent-based solutions. We assess performance at the individual agent level, within the orchestration layer, and across the overall system. Further at a System/multi agent level, each introduction or update of an agent is evaluated for its impact on agent selection, orchestration, and the behavior of other agents. Ongoing evaluation ensures that new agents do not degrade existing agents performance. More details on the evaluation framework for agentic system is provided in [Evaluation Framework](#evaluation-framework) section. 
+
+<img src="./_images/Evaluation_core.png" alt="Evaluation Core" width="500" />
 
 # Architecture
 
@@ -104,11 +106,11 @@ When designing a dynamic large scale multi-agent system, there are different imp
 
 #### In-Code
 
-Agents are defined programmitically in the application code and with the help of frameworks like [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/overview/agent-framework-overview), [LangChain](https://www.langchain.com/) etc.
+Agents are defined programmatically in the application code and with the help of frameworks like [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/overview/agent-framework-overview), [LangChain](https://www.langchain.com/) etc.
 
 **Advantages:**
 
-- Maximum control over agent logic and behavior.
+- Maximum control over agent logic and behaviour.
 - Direct integration with existing application infrastructure.
 - Efficient runtime performance through direct code execution.
 - Rich debugging and testing capabilities.
@@ -121,18 +123,18 @@ Agents are defined programmitically in the application code and with the help of
 
 #### Declarative
 
-Declarative agent definitions allow you to declare agent capabilities, prompts, and workflows in configuration files like [YAML](https://yaml.org/). This approach separates agent logic from application code, enabling non-developers to modify agent behavior without code changes.
+Declarative agent definitions allow you to declare agent capabilities, prompts, and workflows in configuration files like [YAML](https://yaml.org/). This approach separates agent logic from application code, enabling non-developers to modify agent behaviour without code changes.
 
 **Advantages:**
 
 - Easier to introduce new agents into the system without requiring code changes or redeployment.
-- Non-technical team members can also contribute to defining agent behavior.
+- Non-technical team members can also contribute to defining agent behaviour.
 - Faster iteration cycles for agent updates.
 - Clear separation of concerns between infrastructure and agent logic.
 
 **Considerations:**
 
-- Agent behavior and capabilities are restricted to what gets defined as part of the YAML schema. Extending functionality beyond these predefined patterns may require significant changes or custom development.
+- Agent behaviour and capabilities are restricted to what gets defined as part of the YAML schema. Extending functionality beyond these predefined patterns may require significant changes or custom development.
 - Validation and testing processes need to be established for YAML changes.
 
 **Selection Criteria:**
@@ -149,7 +151,7 @@ Additionally, the architecture should support multiple implementation approaches
 ### Agent Factory
 
 The Factory Design Pattern is a well-established approach for creating objects where the system needs to manage and instantiate a variety of objects dynamically.
-When building a scalable multi-agent system, consider adding an AgentFactory in your architecture to centralize how agents are created and to decouple creation logic from runtime use. Given an agent name, the factory returns a ready-to-use agent instance regardless of its implementation (code, YAML template, etc.). This lets you add new agent types without changing orchestration logic.
+When building a scalable multi-agent system, consider adding an Agent Factory in your architecture to centralize how agents are created and to decouple creation logic from runtime use. Given an agent name, the factory returns a ready-to-use agent instance regardless of its implementation (code, YAML template, etc.). This lets you add new agent types without changing orchestration logic.
 
 #### Key Design Considerations
 
@@ -157,13 +159,11 @@ When building a scalable multi-agent system, consider adding an AgentFactory in 
 - Allow configurable priority (for example, prefer YAML template over code) so you can control which implementation is used when multiples exist.  
 - Include validation, lightweight instantiation checks, and caching to avoid repeated heavy construction.  
 
-The Agent Factory pattern streamlines onboarding, testing, and evolution of an agent catalog, and preserves modularity and scalability by isolating agent changes from other system components.
+The Agent Factory pattern streamlines onboarding, testing, and evolution of an agent catalogue, and preserves modularity and scalability by isolating agent changes from other system components.
 
 ### Evolution of system - Creating/updating Agents
 
-## Evaluation Framework
 
-Details around a possible structure of an evaluation framework
 
 ## Agent Onboarding Process
 
@@ -172,6 +172,77 @@ The idea behind this process is to maintain a high-quality, conflict-free multi-
 ![AI Agents Onboarding Process](_images/ai-agents-at-scale-onboarding-process.png)
 
 The process starts with onboarding a new agent, which involves verifying the uniqueness of its name, description, and sample utterances. Once validated, a temporary semantic cache is created, and the system runs semantic and response evaluations to ensure the new agent doesn’t negatively impact existing ones. If results meet benchmarks, the agent is promoted to production, and the golden dataset—our ground truth for evaluations—is updated to reflect the new capabilities. Similarly, when updating an agent, the same validation and regression checks apply to avoid selection drift. Updating the golden dataset is critical for keeping evaluations aligned with real-world usage, while deleting an agent requires careful decommissioning steps to remove dependencies and maintain system integrity. This structured approach ensures scalability without sacrificing accuracy or reliability.
+
+
+## Evaluation Framework
+
+### Agentic System Evaluation Framework using Azure AI Foundry
+
+ A comprehensive framework for evaluating agentic systems leveraging Azure AI Foundry. It focuses on evaluating the inner mechanics of agent-based systems, such as tool invocation, agent selection, and final responses, using both built-in and custom evaluation metrics. The framework also includes visualization of bench mark and detailed analysis through AI Foundry Evaluation dashboard.
+
+The framework utilizes AI Foundry evaluation sdk built to simplify the process of experimentation and evaluation. Config-driven approch combined with pipeline based architecture provides flexibility to add any module as part of pipeline. Further the sdk provides options to use Azure AI Foundry built‑in evaluators for standardized scoring, and custom evaluator metrics that could be easily added for measuring the agent performance.  The flow is organized into modular stages (data_loading, data_preprocessing, evaluation, reporting) with easily swappable datasets, inference models, or evaluators. Inputs/outputs use JSONL/golden dataset formats, and results can be uploaded to blob storage and visualized via the AI Foundry Evaluation dashboard for comparison across runs.
+The code for evaluation framework can be references from this repo  -[Evaluation Framework repo](https://github.com/Azure-Samples/Agentic-Evaluations)
+
+#### Features
+- **AI Foundry SDK** - Framework integrated with [Azure AI Evaluation SDK](https://pypi.org/project/azure-ai-evaluation/)
+-  **Built in and custom Evaluators** - Utilizes both built-in evaluators from AI Foundry ([see full list](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-evaluators/general-purpose-evaluators)) and also enables custom evaluators. 
+-  **Config driven architecture** - yaml config to customize pipelines, add evaluators etc.,
+-  **Highly customizable pipelines** - not just limiting to evaluations, the framework enables adding own modules for data preprocessing, model inferencing and reporting.
+
+
+#### Evaluation Pipeline Diagram
+
+![Evaluation Pipeline](../architecture/_images/eval_framework_flow.png)
+
+#### Pipeline Flow
+
+-  **Preprocessing**: Transform golden datasets to evaluation-friendly format.
+-  **Experiment Execution**: Simulate agent interactions, generate outputs.
+-  **Data Transformation**: Reformat simulator outputs for evaluation.
+-  **Evaluation**: Run selected evaluators.
+-  **Reporting**: View results on AI Foundry dashboard or generate HTML reports.
+
+#### Experimentation and Evaluation of Agentic systems
+
+![Experimentation and Evaluation](../architecture/_images/Experimentation&evaluation.png)
+
+
+A step-by-step workflow for evaluating agentic systems and their components:
+
+
+1. **Agent Development**  
+    Developers create or fine-tune new agents, define evaluation metrics, and prepare sample utterances or golden datasets.
+
+2. **Component-Level Evaluation**  
+    Evaluate each agent or component individually to ensure its responses meet defined expectations and quality standards.
+
+3. **System-Level Evaluation**  
+    After integration, perform system-level evaluations, including semantic cache checks and end-to-end (E2E) assessments, to validate overall system behavior.
+
+4. **Iterative Improvement**  
+    Continuously refine agents and the system, ensuring high performance is maintained and that changes do not negatively impact the overall solution.
+
+This structured approach enables robust validation, benchmarking, and integration of agents, supporting scalable and reliable deployment of agentic systems.
+
+
+## Evaluation Metrics for Agentic Selection
+
+| Metric                               | Description                                                      |
+|--------------------------------------|------------------------------------------------------------------|
+| Agent invoke accuracy, recall        | Evaluates whether the right agent handled the message/task.      |
+| Agent selection recall, precision    | Measures if list of agents suggested by cache as expected        |
+
+## Evaluation of Agent Response (Azure AI Foundry)
+| Metric                               | Description                                                      |
+|--------------------------------------|------------------------------------------------------------------|
+| Bleu score      | Evaluate if the response from agent matches with groud truth                          |
+| Similarity      | Measure how similar is agent response compared to ground truth response               |
+| Relevance       | Measures the relevance of agent reponse for a query                                   |
+
+
+
+*For full list of evaluators, refer to the [AI Foundry Evaluator Reference](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/evaluate-sdk)*
+
 
 ## Observability
 
