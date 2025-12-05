@@ -6,6 +6,17 @@ The solution leverages Azure AI Foundry, Azure AI Search, Azure OpenAI within Fo
 
 This approach is best suited for scenarios involving numerous agents participating in open-ended client conversations, where the conversation domain is not predetermined.
 
+
+## Who is this for
+This architecture is designed for Agentic AI ecosystems where numerous agents operate within a shared environment. These agents often have diverse functions, may not be aware of each other, and are not expected to collaborate directly. As the ecosystem evolves, the number of agents is expected to grow significantly.
+To support this dynamic environment, orchestration must be flexible—determining which agent is needed cannot always be predefined. Instead, the required agent(s) should be available on demand to ensure conversations continue seamlessly.
+As the number of agents scales, costs must remain predictable and stable; otherwise, sustaining growth at this magnitude becomes challenging for the organization.
+Organizations need a scalable, cost-efficient, and reliable solution to manage conversations at scale with an ever-expanding set of agents.
+### Potential use case
+- **Solutions for virtual smart assistant Ecosystems** - These ecosystems evolve rapidly, adding more agents to assist users across various operations. As capabilities expand to automate devices and workflows, a robust mechanism is essential to build and manage a large network of agents efficiently—while keeping costs under control.
+
+
+
 # Key Challenges
 
 ## Dynamic inclusion of agents
