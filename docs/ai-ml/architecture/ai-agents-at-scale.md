@@ -21,7 +21,7 @@ Organizations need a scalable, cost-efficient, and reliable solution to manage c
 
 ## Preparing semantic cache data
 
-Accurate functionality of this architecture depends on a well-constructed semantic cache containing sample agent utterances. Each agent's capabilities should be represented with diverse sample utterances, ensuring comprehensive coverage. For reliable agent invocation, it is strongly recommended to include a minimum of five distinct utterances for every capability. This requirement is a mandatory prerequisite for onboarding any agent into this system.
+Accurate functionality of this architecture depends on a well-constructed semantic cache containing sample agent utterances. Each agent's capabilities should be represented with diverse sample utterances, ensuring comprehensive coverage. For reliable agent invocation, it is strongly recommended to include a minimum of five distinct utterances for every capability. This requirement is a mandatory prerequisite for onboarding any agent into the system.
 
 ## Dynamic inclusion of agents
 
