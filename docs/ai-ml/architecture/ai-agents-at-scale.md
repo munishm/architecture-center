@@ -8,7 +8,7 @@ This approach is best suited for scenarios involving numerous agents participati
 
 
 ## Who is this for
-This architecture is designed for Agentic AI ecosystems where numerous agents operate within a shared environment. These agents often have diverse functions, may not be aware of each other, and are not expected to collaborate directly. As the ecosystem evolves, the number of agents is expected to grow significantly.
+This architecture is tailored for Agentic AI ecosystems that demand dynamic planning and agent orchestration, enabling numerous (10+) agents to collaborate seamlessly within a shared environment. These agents often have diverse functions, may not be aware of each other, and are not expected to collaborate directly. As the ecosystem evolves, the number of agents is expected to grow significantly.
 To support this dynamic environment, orchestration must be flexible—determining which agent is needed cannot always be predefined. Instead, the required agent(s) should be available on demand to ensure conversations continue seamlessly.
 As the number of agents scales, costs must remain predictable and stable; otherwise, sustaining growth at this magnitude becomes challenging for the organization.
 Organizations need a scalable, cost-efficient, and reliable solution to manage conversations at scale with an ever-expanding set of agents.
@@ -18,6 +18,10 @@ Organizations need a scalable, cost-efficient, and reliable solution to manage c
 
 
 # Key Challenges
+
+## Preparing semantic cache data
+
+Accurate functionality of this architecture depends on a well-constructed semantic cache containing sample agent utterances. Each agent's capabilities should be represented with diverse sample utterances, ensuring comprehensive coverage. For reliable agent invocation, it is strongly recommended to include a minimum of five distinct utterances for every capability. This requirement is a mandatory prerequisite for onboarding any agent into the system.
 
 ## Dynamic inclusion of agents
 
