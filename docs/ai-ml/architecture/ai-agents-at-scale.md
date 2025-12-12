@@ -15,7 +15,12 @@ Organizations need a scalable, cost-efficient, and reliable solution to manage c
 ### Potential use case
 - **Solutions for virtual smart assistant Ecosystems** - These ecosystems evolve rapidly, adding more agents to assist users across various operations. As capabilities expand to automate devices and workflows, a robust mechanism is essential to build and manage a large network of agents efficiently—while keeping costs under control.
 
+## When not to use
+This architecture may not be suitable in the following scenarios:
 
+1. **Limited number of agents:** If the system involves fewer than five agents, the complexity of dynamic orchestration may not justify the overhead.
+2. **Deterministic orchestration:** When the orchestration follows a predefined workflow or handoff process, dynamic agent selection is unnecessary.
+3. **Distinct agent roles:** If the agents have clearly distinct roles with no overlap, and the orchestration ensures that only specific agents are available for selection (e.g., principal agents with predefined child or connected agents), the need for dynamic selection by an LLM is minimal.
 
 # Key Challenges
 
